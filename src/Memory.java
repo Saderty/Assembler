@@ -1,6 +1,8 @@
 class Memory {
     Address[] addresses=new Address[1000];
-    Register[] registers=new Register[100];
+
+    Register regA=new Register("A");
+    Register regB=new Register("B");
 
     class Address {
         private int address;
@@ -8,6 +10,7 @@ class Memory {
 
         Address(int address) {
             this.address = address;
+            value="00";
         }
 
         public void setAddress(int address) {
@@ -33,6 +36,7 @@ class Memory {
 
         Register(String register) {
             this.register = register;
+            value="00";
         }
 
         public void setRegister(String register) {

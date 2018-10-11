@@ -24,10 +24,15 @@ public class Assembler {
     static Memory memory = new Memory();
 
     private static void runOperations(String program) {
-        switch (program.split(" ")[0].toUpperCase()) {
-            case "MVI":
-
+        String[] arguments=program.split(" ");
+        switch (arguments[0].toUpperCase()) {
+            case "MVI B":
+                    memory.regB.setValue(arguments[2]);
                 break;
+            case "MVI A":
+                memory.regA.setValue(arguments[2]);
+                break;
+                case "ADD B"
             default:
                 break;
         }
