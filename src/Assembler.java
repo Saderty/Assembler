@@ -1,22 +1,24 @@
+import Support.ArrayOperations;
+
 import java.io.File;
 import java.io.IOException;
 
+import static Support.ArrayOperations.TrimArray;
 import static Support.FileOperations.ReadFile;
 
 public class Assembler {
-    private static File programFile = new File("\\Program.txt");
-    static final private char commentary = '#';
+    private static File programFile = new File("Program.txt");
+    static final private String commentary = "#";
 
     private static String[] readProgram() throws IOException {
         String[] program = ReadFile(programFile);
 
         for (int i = 0; i < program.length; i++) {
-            if (program[i].charAt(0) == commentary) {
+            if (program[i].split("", 2)[0].equals(commentary)) {
                 program[i] = null;
             }
         }
-        //array trim
-        return program;
+        return TrimArray(program, ArrayOperations.SPACE);
     }
 
     public static void main(String[] args) throws IOException {
@@ -24,5 +26,6 @@ public class Assembler {
         for (String aProgram : program) {
             System.out.println(aProgram);
         }
+        System.out.println("qq");
     }
 }
