@@ -1,12 +1,9 @@
 package Support;
 
 import java.io.*;
-import java.util.Arrays;
 
-public class FileOperations {
-    private String ReadFile(File file) throws IOException {
-        String splitter = "#";
-
+ public class FileOperations {
+    public static String[] ReadFile(File file) throws IOException {
         FileInputStream fileInputStream = new FileInputStream(file);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
         StringBuilder stringBuilder = new StringBuilder();
@@ -17,11 +14,6 @@ public class FileOperations {
             stringBuilder.append("\n");
         }
 
-        return stringBuilder.toString();//.split(splitter);
-    }
-
-    public static void main(String[] args) throws IOException {
-        File file = new File("F:\\SYMLINK\\Users\\Downloads\\version.json");
-        System.out.println(new FileOperations().ReadFile(file));
+        return stringBuilder.toString().split("\n");//.split(splitter);
     }
 }
