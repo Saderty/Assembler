@@ -1,5 +1,6 @@
 class Memory {
-    Address[] addresses=new Address[1000];
+    String[] addresses=new String[1000];
+    //Address[] addresses=new Address[1000];
 
     Register regA=new Register("A");
     Register regB=new Register("B");
