@@ -21,11 +21,36 @@ public class Assembler {
         return TrimArray(program, ArrayOperations.SPACE);
     }
 
+    static Memory memory = new Memory();
+
+    private static void runOperations(String program) {
+        switch (program.split(" ")[0].toUpperCase()) {
+            case "MVI":
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    private static void runProgram() throws IOException {
+        String[] program = readProgram();
+
+
+
+
+        for (int i = 0; i < program.length; i++) {
+            runOperations(program[i]);
+        }
+    }
+
+
     public static void main(String[] args) throws IOException {
         String[] program = readProgram();
-        for (String aProgram : program) {
+        /*for (String aProgram : program) {
             System.out.println(aProgram);
         }
-        System.out.println("qq");
+        System.out.println("qq");*/
+        new Memory();
     }
 }

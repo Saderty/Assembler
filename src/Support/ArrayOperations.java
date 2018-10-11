@@ -9,7 +9,7 @@ public class ArrayOperations {
             int n = 0;
             for (int i = 0; i < strings.length; i++) {
                 if (strings[i] == null) {
-                    MoveArray(strings, i, 1);
+                    strings=MoveArray(strings, i, 1);
                     i--;
                     n++;
                     if (strings.length < i+n) {
@@ -24,7 +24,7 @@ public class ArrayOperations {
             int n = 0;
             for (int i = 0; i < strings.length; i++) {
                 if (strings[i] == null|| strings[i].equals("")) {
-                    MoveArray(strings, i, 1);
+                    strings=MoveArray(strings, i, 1);
                     i--;
                     n++;
                     if (strings.length < i+n) {
