@@ -1,13 +1,18 @@
 import java.io.IOException;
 
 class Memory {
-    String[] addresses=new String[2000];
+    String[] addresses = new String[2000];
     //Address[] addresses=new Address[1000];
 
-    Register regA=new Register("A");
-    Register regB=new Register("B");
-    Register regH=new Register("H");
-    Register regL=new Register("L");
+    boolean flagS;
+    boolean flagZ;
+    boolean flagP;
+    boolean flagC;
+
+    Register regA = new Register("A");
+    Register regB = new Register("B");
+    Register regH = new Register("H");
+    Register regL = new Register("L");
 
     class Address {
         private int address;
@@ -15,7 +20,7 @@ class Memory {
 
         Address(int address) {
             this.address = address;
-            value="00";
+            value = "00";
         }
 
         public void setAddress(int address) {
@@ -41,27 +46,27 @@ class Memory {
 
         Register(String register) {
             this.register = register;
-            value="00";
+            value = "00";
         }
 
-       // public void setRegister(String register) {
-       //     this.register = register;
-       // }
+        // public void setRegister(String register) {
+        //     this.register = register;
+        // }
 
         void setValue(String value) {
             this.value = value;
         }
 
-      //  public String getRegister() {
-      //      return register;
-      //  }
+        //  public String getRegister() {
+        //      return register;
+        //  }
 
         String getValue() {
             return value;
         }
     }
 
-    String getRegister(String a){
+    String getRegister(String a) {
         switch (a.toUpperCase()) {
             case "A":
                 return regA.getValue();
@@ -75,21 +80,43 @@ class Memory {
         return null;
     }
 
-    String addRegister(String a,String b){
-        a=getRegister(a);
-        b=getRegister(b);
+    void addRegister(String a, String b) {
+        a = getRegister(a);
+        b = getRegister(b);
 
-        int aa=Integer.parseInt(a,16);
-        int bb=Integer.parseInt(b,16);
+        int aa = Integer.parseInt(a, 16);
+        int bb = Integer.parseInt(b, 16);
 
-        int cc=aa+bb;
+        int cc = aa + bb;
 
-        String c= Integer.toHexString(cc);
+        String c = Integer.toHexString(cc);
 
-        while (c.length()<4){
-            c="0"+c;
+        if (c.length() > 2) {
+            //TODO
+            flagC = true;
+        } else {
+            while (c.length() < 2) {
+                c = "0" + c;
+            }
         }
 
-        return c;
+        regA.setValue(c);
+    }
+
+    void incRegister(Register register) {
+        if (register == regL) {
+            if (!regL.getValue().equals("FF")) {
+                int a = Integer.parseInt(regL.getValue(), 16);
+                regL.setValue(Integer.toHexString(a + 1));
+            }
+        }
+    }
+
+    void incRegisterPair(Register register) {
+        if (register == regH) {
+            if (!regL.getValue().equals("FF")) {
+                incRegister(regL);
+            }
+        }
     }
 }

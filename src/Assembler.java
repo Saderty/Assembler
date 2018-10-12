@@ -28,7 +28,7 @@ public class Assembler {
         String[] program = readProgram();
 
         for (int i = 0; i < program.length; i++) {
-            memory.addresses[i] = program[i];
+            memory.addresses[i] = program[i].toUpperCase();
         }
     }
 
@@ -57,7 +57,7 @@ public class Assembler {
                     int b = Integer.parseInt(memory.addresses[Integer.parseInt(memory.regH.getValue() + memory.regL.getValue())]);
                     memory.regA.setValue(String.valueOf(a+b));
                 }*/
-                memory.addRegister(arguments[1], arguments[2]);
+                memory.addRegister("a", arguments[1]);
                 counter++;
                 break;
 
@@ -78,7 +78,7 @@ public class Assembler {
 
             case "MOV":
                 if (arguments[1].equals("B")) {
-                    if (arguments[1].equals("A")) {
+                    if (arguments[2].equals("A")) {
                         memory.regB.setValue(memory.regA.getValue());
                     }
                 }
@@ -100,9 +100,13 @@ public class Assembler {
 
             case "INX":
                 if (arguments[1].equals("H")) {
-
+                    memory.incRegisterPair(memory.regH);
                 }
                 counter++;
+                break;
+
+            case "JMP":
+                counter = Integer.parseInt(arguments[1]);
                 break;
 
             case "JZ":
@@ -139,9 +143,28 @@ public class Assembler {
         loadToAddresses();
         while (!memory.addresses[counter].equals("END")) {
             runOperations(memory.addresses[counter]);
+            System.out.println("Counter : " + counter);
+            displayRegisters();
         }
     }
 
+    private void displayRegisters() {
+        String registers = "";
+        registers += "A : ";
+        registers += memory.regA.getValue();
+        registers += " | ";
+        registers += "B : ";
+        registers += memory.regB.getValue();
+        registers += " | ";
+        registers += "H : ";
+        registers += memory.regH.getValue();
+        registers += " | ";
+        registers += "L : ";
+        registers += memory.regL.getValue();
+        registers += " | ";
+
+        System.out.println(registers);
+    }
 
     public static void main(String[] args) throws IOException {
         new Assembler().runProgram();

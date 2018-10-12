@@ -1,5 +1,17 @@
-mvi a 57
-mvi b b5
-add b
+set 1100 2
+set 1200 11
+set 1201 22
+
+lda 1100
+mov b a
+sub a
+lxi h 1200
+add m
+dcr b
+jz 16
+inx h
+jmp 8
+
 get a
+
 end
