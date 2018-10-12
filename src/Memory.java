@@ -1,9 +1,13 @@
+import java.io.IOException;
+
 class Memory {
-    String[] addresses=new String[1000];
+    String[] addresses=new String[2000];
     //Address[] addresses=new Address[1000];
 
     Register regA=new Register("A");
     Register regB=new Register("B");
+    Register regH=new Register("H");
+    Register regL=new Register("L");
 
     class Address {
         private int address;
@@ -40,20 +44,52 @@ class Memory {
             value="00";
         }
 
-        public void setRegister(String register) {
-            this.register = register;
-        }
+       // public void setRegister(String register) {
+       //     this.register = register;
+       // }
 
-        public void setValue(String value) {
+        void setValue(String value) {
             this.value = value;
         }
 
-        public String getRegister() {
-            return register;
-        }
+      //  public String getRegister() {
+      //      return register;
+      //  }
 
-        public String getValue() {
+        String getValue() {
             return value;
         }
+    }
+
+    String getRegister(String a){
+        switch (a.toUpperCase()) {
+            case "A":
+                return regA.getValue();
+            case "B":
+                return regB.getValue();
+            case "H":
+                return regH.getValue();
+            case "L":
+                return regL.getValue();
+        }
+        return null;
+    }
+
+    String addRegister(String a,String b){
+        a=getRegister(a);
+        b=getRegister(b);
+
+        int aa=Integer.parseInt(a,16);
+        int bb=Integer.parseInt(b,16);
+
+        int cc=aa+bb;
+
+        String c= Integer.toHexString(cc);
+
+        while (c.length()<4){
+            c="0"+c;
+        }
+
+        return c;
     }
 }

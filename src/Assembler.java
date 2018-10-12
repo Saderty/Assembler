@@ -10,6 +10,9 @@ public class Assembler {
     private File programFile = new File("Program.txt");
     final private String commentary = "#";
 
+    private Memory memory = new Memory();
+    private int counter = 0;
+
     private String[] readProgram() throws IOException {
         String[] program = ReadFile(programFile);
 
@@ -21,7 +24,13 @@ public class Assembler {
         return TrimArray(program, ArrayOperations.SPACE);
     }
 
-    private Memory memory = new Memory();
+    private void loadToAddresses() throws IOException {
+        String[] program = readProgram();
+
+        for (int i = 0; i < program.length; i++) {
+            memory.addresses[i] = program[i];
+        }
+    }
 
     private void runOperations(String program) {
         String[] arguments = program.split(" ");
@@ -33,19 +42,80 @@ public class Assembler {
                 if (arguments[1].equals("B")) {
                     memory.regB.setValue(arguments[2]);
                 }
+                counter++;
                 break;
 
             case "ADD":
-                if (arguments[1].equals("B")) {
+               /* if (arguments[1].equals("B")) {
                     int a = Integer.parseInt(memory.regA.getValue(), 16);
                     int b = Integer.parseInt(memory.regB.getValue(), 16);
 
                     memory.regA.setValue(Integer.toHexString(a + b));
                 }
+                if (arguments[1].equals("M")) {
+                    int a = Integer.parseInt(memory.regA.getValue(), 16);
+                    int b = Integer.parseInt(memory.addresses[Integer.parseInt(memory.regH.getValue() + memory.regL.getValue())]);
+                    memory.regA.setValue(String.valueOf(a+b));
+                }*/
+                memory.addRegister(arguments[1], arguments[2]);
+                counter++;
+                break;
+
+            case "SUB":
+                if (arguments[1].equals("A")) {
+                    memory.regA.setValue(Integer.toHexString(0));
+                }
+                counter++;
+                break;
+
+            case "DCR":
+                if (arguments[1].equals("B")) {
+                    int a = Integer.parseInt(memory.regB.getValue(), 16);
+                    memory.regB.setValue(String.valueOf(a - 1));
+                }
+                counter++;
+                break;
+
+            case "MOV":
+                if (arguments[1].equals("B")) {
+                    if (arguments[1].equals("A")) {
+                        memory.regB.setValue(memory.regA.getValue());
+                    }
+                }
+                counter++;
+                break;
+
+            case "LDA":
+                memory.regA.setValue(memory.addresses[Integer.parseInt(arguments[1])]);
+                counter++;
+                break;
+
+            case "LXI":
+                if (arguments[1].equals("H")) {
+                    memory.regH.setValue(arguments[2].substring(0, 2));
+                    memory.regL.setValue(arguments[2].substring(2, 4));
+                }
+                counter++;
+                break;
+
+            case "INX":
+                if (arguments[1].equals("H")) {
+
+                }
+                counter++;
+                break;
+
+            case "JZ":
+                if (Integer.parseInt(memory.regB.getValue()) == 0) {
+                    counter = Integer.parseInt(arguments[1]);
+                } else {
+                    counter++;
+                }
                 break;
 
             case "SET":
                 memory.addresses[Integer.parseInt(arguments[1])] = arguments[2];
+                counter++;
                 break;
 
             case "GET":
@@ -54,6 +124,7 @@ public class Assembler {
                         System.out.println("Register " + arguments[1] + " = " + memory.regA.getValue());
                     }
                 }
+                counter++;
                 break;
 
             default:
@@ -65,10 +136,9 @@ public class Assembler {
     }
 
     private void runProgram() throws IOException {
-        String[] program = readProgram();
-
-        for (String aProgram : program) {
-            runOperations(aProgram.toUpperCase());
+        loadToAddresses();
+        while (!memory.addresses[counter].equals("END")) {
+            runOperations(memory.addresses[counter]);
         }
     }
 
