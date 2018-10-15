@@ -1,17 +1,15 @@
 set 1100 2
 set 1200 11
 set 1201 22
-
 lda 1100
 mov b a
 sub a
 lxi h 1200
 add m
 dcr b
-jz 16
+jz 12
 inx h
-jmp 8
-
+jmp 7
 get a
-
 end
+-worked

@@ -57,7 +57,29 @@ public class Assembler {
                     int b = Integer.parseInt(memory.addresses[Integer.parseInt(memory.regH.getValue() + memory.regL.getValue())]);
                     memory.regA.setValue(String.valueOf(a+b));
                 }*/
-                memory.addRegister("a", arguments[1]);
+                if (!arguments[1].equals("M")) {
+                    memory.addRegister("a", arguments[1]);
+                } else {
+                    String a = memory.regA.getValue();
+                    String hl = memory.regH.getValue() + memory.regL.getValue();
+
+                    int intA = Integer.parseInt(a, 16);
+                    int intHl = Integer.parseInt(memory.addresses[Integer.parseInt(hl)], 16);
+
+                    int intRes = intA + intHl;
+
+                    String c = Integer.toHexString(intRes);
+
+                    if (c.length() > 2) {
+                    } else {
+                        while (c.length() < 2) {
+                            c = "0" + c;
+                        }
+                    }
+
+                    memory.regA.setValue(c);
+                }
+
                 counter++;
                 break;
 
@@ -110,7 +132,7 @@ public class Assembler {
                 break;
 
             case "JZ":
-                if (Integer.parseInt(memory.regB.getValue()) == 0) {
+                if (Integer.parseInt(memory.regB.getValue(), 16) == 0) {
                     counter = Integer.parseInt(arguments[1]);
                 } else {
                     counter++;
@@ -142,8 +164,8 @@ public class Assembler {
     private void runProgram() throws IOException {
         loadToAddresses();
         while (!memory.addresses[counter].equals("END")) {
-            runOperations(memory.addresses[counter]);
             System.out.println("Counter : " + counter);
+            runOperations(memory.addresses[counter]);
             displayRegisters();
         }
     }

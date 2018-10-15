@@ -106,8 +106,16 @@ class Memory {
     void incRegister(Register register) {
         if (register == regL) {
             if (!regL.getValue().equals("FF")) {
-                int a = Integer.parseInt(regL.getValue(), 16);
-                regL.setValue(Integer.toHexString(a + 1));
+                int a = Integer.parseInt(regL.getValue(), 16) + 1;
+                String aa = Integer.toHexString(a);
+
+                if (aa.length() < 2) {
+                    while (aa.length() < 2) {
+                        aa = "0" + aa;
+                    }
+                }
+
+                regL.setValue(aa);
             }
         }
     }
