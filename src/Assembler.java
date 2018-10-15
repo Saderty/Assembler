@@ -65,9 +65,7 @@ public class Assembler {
                 break;
 
             case "SUB":
-                if (arguments[1].equals("A")) {
-                    regA.setValue(Integer.toHexString(0));
-                }
+                getRegister(arguments[1]).setValue("00");
                 counter++;
                 break;
 
@@ -138,6 +136,7 @@ public class Assembler {
             case "STAX":
                 addresses[Integer.parseInt(getRegisterPairValue(getRegister(arguments[1])))] =
                         regA.getValue();
+                regA.setValue("00");
                 counter++;
                 break;
 
@@ -177,6 +176,15 @@ public class Assembler {
         registers += " | ";
         registers += "B : ";
         registers += regB.getValue();
+        registers += " | ";
+        registers += "C : ";
+        registers += regC.getValue();
+        registers += " | ";
+        registers += "D : ";
+        registers += regD.getValue();
+        registers += " | ";
+        registers += "E : ";
+        registers += regE.getValue();
         registers += " | ";
         registers += "H : ";
         registers += regH.getValue();

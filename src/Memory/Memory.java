@@ -4,17 +4,17 @@ public class Memory {
     public static String[] addresses = new String[2000];
 
     public static boolean flagS;
-    public  static boolean flagZ;
-    public  static boolean flagP;
-    public  static boolean flagC;
+    public static boolean flagZ;
+    public static boolean flagP;
+    public static boolean flagC;
 
     public static Register regA = new Register();
-    public  static Register regB = new Register();
-    public  static Register regC = new Register();
-    public  static Register regD = new Register();
-    public  static Register regE = new Register();
-    public   static Register regH = new Register();
-    public  static Register regL = new Register();
+    public static Register regB = new Register();
+    public static Register regC = new Register();
+    public static Register regD = new Register();
+    public static Register regE = new Register();
+    public static Register regH = new Register();
+    public static Register regL = new Register();
 
     /*
         static  class Address {
@@ -55,7 +55,7 @@ public class Memory {
             this.value = value;
         }
 
-        public  String getValue() {
+        public String getValue() {
             return value;
         }
     }
@@ -144,8 +144,16 @@ public class Memory {
     }
 
     public static void incRegisterPair(Register register) {
-        if (register == regH) {
-            if (!regL.getValue().equals("FF")) {
+        if (register.getValue().length() > 2) {
+            flagC = true;
+        } else {
+            if (register == regB) {
+                incRegister(regC);
+            }
+            if (register == regD) {
+                incRegister(regE);
+            }
+            if (register == regH) {
                 incRegister(regL);
             }
         }
