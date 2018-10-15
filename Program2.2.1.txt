@@ -1,0 +1,18 @@
+set 1100 5
+set 1200 11
+set 1201 22
+set 1202 23
+set 1203 ae
+set 1204 bc
+lda 1100
+mov b a
+sub a
+lxi h 1200
+add m
+dcr b
+jz 15
+inx h
+jmp 10
+get a
+end
+-worked

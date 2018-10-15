@@ -1,8 +1,5 @@
-import java.io.IOException;
-
 class Memory {
     String[] addresses = new String[2000];
-    //Address[] addresses=new Address[1000];
 
     boolean flagS;
     boolean flagZ;
@@ -11,6 +8,9 @@ class Memory {
 
     Register regA = new Register("A");
     Register regB = new Register("B");
+    Register regC = new Register("C");
+    Register regD = new Register("D");
+    Register regE = new Register("E");
     Register regH = new Register("H");
     Register regL = new Register("L");
 
@@ -57,7 +57,7 @@ class Memory {
             this.value = value;
         }
 
-        //  public String getRegister() {
+        //  public String getRegisterValue() {
         //      return register;
         //  }
 
@@ -66,23 +66,50 @@ class Memory {
         }
     }
 
-    String getRegister(String a) {
+    Register getRegister(String a) {
         switch (a.toUpperCase()) {
+            case "A":
+                return regA;
+            case "B":
+                return regB;
+            case "C":
+                return regC;
+            case "D":
+                return regD;
+            case "E":
+                return regE;
+            case "H":
+                return regH;
+            case "L":
+                return regL;
+        }
+        return null;
+    }
+
+    String getRegisterValue(String a) {
+        return getRegister(a).getValue();
+       /* switch (a.toUpperCase()) {
             case "A":
                 return regA.getValue();
             case "B":
                 return regB.getValue();
+            case "C":
+                return regC.getValue();
+            case "D":
+                return regD.getValue();
+            case "E":
+                return regE.getValue();
             case "H":
                 return regH.getValue();
             case "L":
                 return regL.getValue();
         }
-        return null;
+        return null;*/
     }
 
-    void addRegister(String a, String b) {
-        a = getRegister(a);
-        b = getRegister(b);
+    void addRegister(Register reg0, Register reg1) {
+        String a = reg0.getValue();
+        String b = reg1.getValue();
 
         int aa = Integer.parseInt(a, 16);
         int bb = Integer.parseInt(b, 16);
@@ -92,7 +119,6 @@ class Memory {
         String c = Integer.toHexString(cc);
 
         if (c.length() > 2) {
-            //TODO
             flagC = true;
         } else {
             while (c.length() < 2) {
@@ -103,21 +129,45 @@ class Memory {
         regA.setValue(c);
     }
 
-    void incRegister(Register register) {
-        if (register == regL) {
-            if (!regL.getValue().equals("FF")) {
-                int a = Integer.parseInt(regL.getValue(), 16) + 1;
-                String aa = Integer.toHexString(a);
+    void addRegister(Register reg0, String reg1) {
+        String a = reg0.getValue();
 
-                if (aa.length() < 2) {
-                    while (aa.length() < 2) {
-                        aa = "0" + aa;
-                    }
-                }
+        int aa = Integer.parseInt(a, 16);
+        int bb = Integer.parseInt(reg1, 16);
 
-                regL.setValue(aa);
+        int cc = aa + bb;
+        String c = Integer.toHexString(cc);
+
+        if (c.length() > 2) {
+            flagC = true;
+        } else {
+            while (c.length() < 2) {
+                c = "0" + c;
             }
         }
+
+        reg0.setValue(c);
+    }
+
+    void incRegister(Register register) {
+        addRegister(register, "1");
+    }
+
+    void decRegister(Register register) {
+        addRegister(register, "-1");
+    }
+
+    String getRegisterPairValue(Register register) {
+        if (register == regB) {
+            return regB.getValue() + regC.getValue();
+        }
+        if (register == regD) {
+            return regD.getValue() + regE.getValue();
+        }
+        if (register == regH) {
+            return regH.getValue() + regL.getValue();
+        }
+        return null;
     }
 
     void incRegisterPair(Register register) {
@@ -127,4 +177,5 @@ class Memory {
             }
         }
     }
+
 }

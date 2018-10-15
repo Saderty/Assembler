@@ -8,10 +8,19 @@ import static Support.FileOperations.ReadFile;
 
 public class Assembler {
     private File programFile = new File("Program.txt");
+
     final private String commentary = "#";
+    private int counter = 0;
 
     private Memory memory = new Memory();
-    private int counter = 0;
+
+    private Memory.Register regA = memory.regA;
+    private Memory.Register regB = memory.regB;
+    private Memory.Register regC = memory.regC;
+    private Memory.Register regD = memory.regD;
+    private Memory.Register regE = memory.regE;
+    private Memory.Register regH = memory.regH;
+    private Memory.Register regL = memory.regL;
 
     private String[] readProgram() throws IOException {
         String[] program = ReadFile(programFile);
@@ -36,50 +45,32 @@ public class Assembler {
         String[] arguments = program.split(" ");
         switch (arguments[0]) {
             case "MVI":
-                if (arguments[1].equals("A")) {
-                    memory.regA.setValue(arguments[2]);
-                }
-                if (arguments[1].equals("B")) {
-                    memory.regB.setValue(arguments[2]);
-                }
+                memory.getRegister(arguments[1]).setValue(arguments[2]);
                 counter++;
                 break;
 
             case "ADD":
-               /* if (arguments[1].equals("B")) {
-                    int a = Integer.parseInt(memory.regA.getValue(), 16);
-                    int b = Integer.parseInt(memory.regB.getValue(), 16);
-
-                    memory.regA.setValue(Integer.toHexString(a + b));
-                }
-                if (arguments[1].equals("M")) {
-                    int a = Integer.parseInt(memory.regA.getValue(), 16);
-                    int b = Integer.parseInt(memory.addresses[Integer.parseInt(memory.regH.getValue() + memory.regL.getValue())]);
-                    memory.regA.setValue(String.valueOf(a+b));
-                }*/
                 if (!arguments[1].equals("M")) {
-                    memory.addRegister("a", arguments[1]);
+                    memory.addRegister(regA, memory.getRegister(arguments[1]));
                 } else {
-                    String a = memory.regA.getValue();
-                    String hl = memory.regH.getValue() + memory.regL.getValue();
-
-                    int intA = Integer.parseInt(a, 16);
-                    int intHl = Integer.parseInt(memory.addresses[Integer.parseInt(hl)], 16);
-
-                    int intRes = intA + intHl;
-
-                    String c = Integer.toHexString(intRes);
-
-                    if (c.length() > 2) {
-                    } else {
-                        while (c.length() < 2) {
-                            c = "0" + c;
-                        }
-                    }
-
-                    memory.regA.setValue(c);
+                    memory.addRegister(regA, memory.addresses[Integer.parseInt(memory.getRegisterPairValue(regH))]);
                 }
 
+                counter++;
+                break;
+
+            case "ADC":
+                if (arguments[1].equals("M")) {
+                    if (!memory.flagC) {
+                        memory.addRegister(regA, memory.addresses
+                                [Integer.parseInt(memory.getRegisterPairValue(regH))]);
+                    } else {
+                        memory.addRegister(regA, memory.addresses
+                                [Integer.parseInt(memory.getRegisterPairValue(regH))]);
+                        memory.incRegister(regA);
+                        memory.flagC = false;
+                    }
+                }
                 counter++;
                 break;
 
@@ -91,10 +82,12 @@ public class Assembler {
                 break;
 
             case "DCR":
-                if (arguments[1].equals("B")) {
-                    int a = Integer.parseInt(memory.regB.getValue(), 16);
-                    memory.regB.setValue(String.valueOf(a - 1));
-                }
+                //memory.decRegister(memory.getRegister(arguments[1]));
+
+                int a = Integer.parseInt(memory.getRegister(arguments[1]).getValue(), 16) - 1;
+                String aa = Integer.toHexString(a);
+                memory.getRegister(arguments[1]).setValue(aa);
+
                 counter++;
                 break;
 
@@ -112,18 +105,31 @@ public class Assembler {
                 counter++;
                 break;
 
+            case "LDAX":
+                regA.setValue(memory.addresses
+                        [Integer.parseInt(memory.getRegisterPairValue(memory.getRegister(arguments[1])))]);
+                counter++;
+                break;
+
             case "LXI":
-                if (arguments[1].equals("H")) {
-                    memory.regH.setValue(arguments[2].substring(0, 2));
-                    memory.regL.setValue(arguments[2].substring(2, 4));
+                if (memory.getRegister(arguments[1]) == regB) {
+                    regB.setValue(arguments[2].substring(0, 2));
+                    regC.setValue(arguments[2].substring(2, 4));
                 }
+                if (memory.getRegister(arguments[1]) == regD) {
+                    regD.setValue(arguments[2].substring(0, 2));
+                    regE.setValue(arguments[2].substring(2, 4));
+                }
+                if (memory.getRegister(arguments[1]) == regH) {
+                    regH.setValue(arguments[2].substring(0, 2));
+                    regL.setValue(arguments[2].substring(2, 4));
+                }
+
                 counter++;
                 break;
 
             case "INX":
-                if (arguments[1].equals("H")) {
-                    memory.incRegisterPair(memory.regH);
-                }
+                memory.incRegisterPair(memory.getRegister(arguments[1]));
                 counter++;
                 break;
 
@@ -139,6 +145,12 @@ public class Assembler {
                 }
                 break;
 
+            case "STAX":
+                memory.addresses[Integer.parseInt(memory.getRegisterPairValue(memory.getRegister(arguments[1])))] =
+                        regA.getValue();
+                counter++;
+                break;
+
             case "SET":
                 memory.addresses[Integer.parseInt(arguments[1])] = arguments[2];
                 counter++;
@@ -146,9 +158,10 @@ public class Assembler {
 
             case "GET":
                 if (arguments[1].length() == 1) {
-                    if (arguments[1].equals("A")) {
-                        System.out.println("Register " + arguments[1] + " = " + memory.regA.getValue());
-                    }
+                    System.out.println("Register " + arguments[1] + " = " + memory.getRegister(arguments[1]).getValue());
+                }
+                if (arguments[1].length() == 4) {
+                    System.out.println("Address " + arguments[1] + " = " + memory.addresses[Integer.parseInt(arguments[1])]);
                 }
                 counter++;
                 break;
@@ -156,9 +169,6 @@ public class Assembler {
             default:
                 break;
         }
-        //System.out.println(memory.regA.getValue());
-        //System.out.println(memory.regB.getValue());
-        //System.out.println();
     }
 
     private void runProgram() throws IOException {
