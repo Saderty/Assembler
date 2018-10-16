@@ -1,6 +1,10 @@
 package Memory;
 
 public class Memory {
+    static final int bit = 16;
+    static final String doubleByte = "100";
+    static final String sDoubleByte = "-100";
+
     public static String[] addresses = new String[2000];
 
     public static boolean flagS;
@@ -16,6 +20,10 @@ public class Memory {
     public static Register regH = new Register();
     public static Register regL = new Register();
 
+    private static Register[][] regPair = {
+            {regB, regC},
+            {regD, regE},
+            {regH, regL}};
     /*
         static  class Address {
             private int address;
@@ -80,44 +88,33 @@ public class Memory {
         return null;
     }
 
-    public static void addRegister(Register reg0, Register reg1) {
-        String a = reg0.getValue();
-        String b = reg1.getValue();
+    private static String addHex(String arg0, String arg1) {
+        return Integer.toHexString(Integer.parseInt(arg0, bit) + Integer.parseInt(arg1, bit));
+    }
 
-        int aa = Integer.parseInt(a, 16);
-        int bb = Integer.parseInt(b, 16);
-
-        int cc = aa + bb;
-
-        String c = Integer.toHexString(cc);
-
-        if (c.length() > 2) {
+    private static String normalise(String s) {
+        if (s.length() > 2) {
             flagC = true;
+            s = addHex(s, sDoubleByte);
         } else {
-            while (c.length() < 2) {
-                c = "0" + c;
+            while (s.length() < 2) {
+                s = "0" + s;
             }
         }
 
-        regA.setValue(c);
+        return s;
+    }
+
+    public static void addRegister(Register reg0, Register reg1) {
+        addRegister(reg0, reg1.getValue());
     }
 
     public static void addRegister(Register reg0, String reg1) {
         String a = reg0.getValue();
 
-        int aa = Integer.parseInt(a, 16);
-        int bb = Integer.parseInt(reg1, 16);
+        String c = addHex(a, reg1);
 
-        int cc = aa + bb;
-        String c = Integer.toHexString(cc);
-
-        if (c.length() > 2) {
-            flagC = true;
-        } else {
-            while (c.length() < 2) {
-                c = "0" + c;
-            }
-        }
+        c = normalise(c);
 
         reg0.setValue(c);
     }
@@ -131,30 +128,24 @@ public class Memory {
     }
 
     public static String getRegisterPairValue(Register register) {
-        if (register == regB) {
-            return regB.getValue() + regC.getValue();
-        }
-        if (register == regD) {
-            return regD.getValue() + regE.getValue();
-        }
-        if (register == regH) {
-            return regH.getValue() + regL.getValue();
+        for (Register[] aRegPair : regPair) {
+            if (register == aRegPair[0]) {
+                return aRegPair[0].getValue() + aRegPair[1].getValue();
+            }
         }
         return null;
     }
 
     public static void incRegisterPair(Register register) {
-        if (register.getValue().length() > 2) {
-            flagC = true;
-        } else {
-            if (register == regB) {
-                incRegister(regC);
-            }
-            if (register == regD) {
-                incRegister(regE);
-            }
-            if (register == regH) {
-                incRegister(regL);
+        for (Register[] aRegPair : regPair) {
+            if (register == aRegPair[0]) {
+                String tmp = getRegisterPairValue(aRegPair[0]);
+                tmp = addHex(tmp, "1");
+                while (tmp.length() < 4) {
+                    tmp = "0" + tmp;
+                }
+                aRegPair[0].setValue(tmp.substring(0, 2));
+                aRegPair[1].setValue(tmp.substring(2, 4));
             }
         }
     }

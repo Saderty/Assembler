@@ -1,0 +1,27 @@
+set 1100 12
+set 1101 34
+set 1102 56
+set 1103 78
+set 1104 ea
+set 1105 cc
+set 1106 de
+set 1107 32
+mvi l 08
+lxi b 1100
+lxi d 1200
+ldax b
+cpi 30
+jc 18
+cpi cc
+jnc 18
+stax d
+inx d
+inx b
+dcr l
+jnz 11
+get 1200
+get 1201
+get 1202
+get 1203
+get 1204
+end

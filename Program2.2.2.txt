@@ -1,18 +1,24 @@
-set 1100 91
-set 1101 25
-set 1200 31
-set 1201 74
-mvi b 02
+set 1100 ff
+set 1101 ff
+set 1102 1f
+set 1200 ff
+set 1201 ff
+set 1202 1f
+mvi b 03
 lxi d 1100
 lxi h 1200
 ldax d
 adc m
 stax d
+get 1100
 dcr b
-jz 15
+jz 18
 inx d
 inx h
-jmp 7
+jmp 9
 get 1100
 get 1101
+get 1102
 end
+-Младшие биты вначале
+-Worked
