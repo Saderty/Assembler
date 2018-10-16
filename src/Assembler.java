@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static Memory.Memory.*;
+import static Support.ArrayOperations.MoveArray;
 import static Support.ArrayOperations.TrimArray;
 import static Support.FileOperations.ReadFile;
 
@@ -26,11 +27,10 @@ public class Assembler {
     }
 
     private void loadToAddresses() throws IOException {
-        //
         for (int i = 0; i < addresses.length; i++) {
-            addresses[i]="00";
+            addresses[i] = "00";
         }
-        //
+
         String[] program = readProgram();
 
         for (int i = 0; i < program.length; i++) {
@@ -47,35 +47,22 @@ public class Assembler {
                 break;
 
             case "ADD":
-                if (!arguments[1].equals("M")) {
-                    addRegister(regA, getRegister(arguments[1]));
+                if (arguments[1].equals("M")) {
+                    addRegister(regA, getRegisterPairAddressValue(regH));
                 } else {
-                    addRegister(regA, addresses[Integer.parseInt(getRegisterPairValue(regH))]);
+                    addRegister(regA, getRegister(arguments[1]));
                 }
-
                 counter++;
                 break;
 
             case "ADC":
                 if (arguments[1].equals("M")) {
                     if (!flagC) {
-                        addRegister(regA, addresses
-                                [Integer.parseInt(getRegisterPairValue(regH))]);
-
-                        if (regA.getValue().length() > 2) {
-                            flagC = true;
-                            addRegister(regA, "-100");
-                        }
+                        addRegister(regA, getRegisterPairAddressValue(regH));
                     } else {
-                        addRegister(regA, addresses
-                                [Integer.parseInt(getRegisterPairValue(regH))]);
+                        addRegister(regA, getRegisterPairAddressValue(regH));
                         incRegister(regA);
                         flagC = false;
-
-                        if (regA.getValue().length() > 2) {
-                            flagC = true;
-                            addRegister(regA, "-100");
-                        }
                     }
                 }
                 counter++;
@@ -89,25 +76,24 @@ public class Assembler {
                 break;
 
             case "SUB":
-                getRegister(arguments[1]).setValue("00");
+                subRegister(getRegister(arguments[1]), getRegister(arguments[2]));
                 counter++;
                 break;
 
             case "DCR":
-                if (Integer.parseInt(getRegister(arguments[1]).getValue(), 16) == 0) {
+                if (getRegister(arguments[1]).getValue().equals("00")) {
                     flagZ = true;
                 } else {
                     decRegister(getRegister(arguments[1]));
                 }
-
                 counter++;
                 break;
 
-            case "MOV":
-                if (!arguments[2].equals("M")) {
-                    getRegister(arguments[1]).setValue(getRegister(arguments[2]).getValue());
+            case "MOV"://Reg -> Reg
+                if (arguments[2].equals("M")) {
+                    regA.setValue(getRegisterPairAddressValue(regH));
                 } else {
-                    regA.setValue(addresses[Integer.parseInt(getRegisterPairValue(regH))]);
+                    getRegister(arguments[1]).setValue(getRegister(arguments[2]).getValue());
                 }
                 counter++;
                 break;
@@ -118,27 +104,17 @@ public class Assembler {
                 break;
 
             case "LDAX"://RP -> a16 -> RegA
-                if (addresses[Integer.parseInt(getRegisterPairValue(getRegister(arguments[1])))] != null) {
-                    regA.setValue(addresses
-                            [Integer.parseInt(getRegisterPairValue(getRegister(arguments[1])))]);
-                }
+                regA.setValue(getRegisterPairAddressValue(getRegister(arguments[1])));
                 counter++;
                 break;
 
-            case "LXI":
-                if (getRegister(arguments[1]) == regB) {
-                    regB.setValue(arguments[2].substring(0, 2));
-                    regC.setValue(arguments[2].substring(2, 4));
+            case "LXI"://d16 -> RP
+                for (Register[] aRegPair : regPair) {
+                    if (getRegister(arguments[1]) == aRegPair[0]) {
+                        aRegPair[0].setValue(arguments[2].substring(0, 2));
+                        aRegPair[1].setValue(arguments[2].substring(2, 4));
+                    }
                 }
-                if (getRegister(arguments[1]) == regD) {
-                    regD.setValue(arguments[2].substring(0, 2));
-                    regE.setValue(arguments[2].substring(2, 4));
-                }
-                if (getRegister(arguments[1]) == regH) {
-                    regH.setValue(arguments[2].substring(0, 2));
-                    regL.setValue(arguments[2].substring(2, 4));
-                }
-
                 counter++;
                 break;
 
@@ -169,19 +145,19 @@ public class Assembler {
                 }
                 break;
 
-            case "JNZ":
-                if (!flagZ) {
+            case "JZ":
+                if (flagZ) {
                     counter = Integer.parseInt(arguments[1]);
-                    //flagZ = false;
+                    flagZ = false;
                 } else {
                     counter++;
                 }
                 break;
 
-            case "JZ":
-                if (flagZ) {
+            case "JNZ":
+                if (!flagZ) {
                     counter = Integer.parseInt(arguments[1]);
-                    flagZ = false;
+                    //flagZ = false;
                 } else {
                     counter++;
                 }
@@ -222,6 +198,13 @@ public class Assembler {
             displayRegisters();
             displayFlags();
             System.out.println();
+        }
+        counter++;
+        while (!addresses[counter].equals("00")) {
+            System.out.println("Counter : " + counter);
+            runOperations(addresses[counter]);
+            System.out.println();
+            //counter++;
         }
     }
 

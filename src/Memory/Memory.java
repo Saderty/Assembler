@@ -1,9 +1,9 @@
 package Memory;
 
 public class Memory {
-    static final int bit = 16;
-    static final String doubleByte = "100";
-    static final String sDoubleByte = "-100";
+    private static final int bit = 16;
+    private static final String doubleByte = "100";
+    private static final String sDoubleByte = "-100";
 
     public static String[] addresses = new String[2000];
 
@@ -20,7 +20,7 @@ public class Memory {
     public static Register regH = new Register();
     public static Register regL = new Register();
 
-    private static Register[][] regPair = {
+    public static Register[][] regPair = {
             {regB, regC},
             {regD, regE},
             {regH, regL}};
@@ -109,6 +109,10 @@ public class Memory {
         addRegister(reg0, reg1.getValue());
     }
 
+    public static void subRegister(Register reg0, Register reg1) {
+        addRegister(reg0, "-" + reg1.getValue());
+    }
+
     public static void addRegister(Register reg0, String reg1) {
         String a = reg0.getValue();
 
@@ -148,6 +152,10 @@ public class Memory {
                 aRegPair[1].setValue(tmp.substring(2, 4));
             }
         }
+    }
+
+    public static String getRegisterPairAddressValue(Register register) {
+        return addresses[Integer.parseInt(getRegisterPairValue(register))];
     }
 
 }

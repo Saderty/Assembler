@@ -2,8 +2,8 @@ package Support;
 
 import java.io.*;
 
- public class FileOperations {
-     public static String[] ReadFile(File file) throws IOException {
+public class FileOperations {
+    public static String[] ReadFile(File file) throws IOException {
         FileInputStream fileInputStream = new FileInputStream(file);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
         StringBuilder stringBuilder = new StringBuilder();

@@ -1,18 +1,19 @@
-set 1100 05
-set 1200 11
-set 1201 22
-set 1202 23
-set 1203 ae
-set 1204 bc
-lda 1100
-mov b a
-sub a
-lxi h 1200
-add m
-dcr b
-jz 15
+set 1100 12
+set 1101 43
+set 1102 ea
+set 1103 bc
+mvi d 04
+lxi h 1100
+lxi b 1200
+mov a m
+stax b
+dcr d
+jz 14
 inx h
-jmp 10
-get a
+inx b
+jmp 7
 end
--worked
+get 1200
+get 1201
+get 1202
+get 1203
