@@ -19,9 +19,9 @@ inx d
 inx b
 dcr l
 jnz 11
+end
 get 1200
 get 1201
 get 1202
 get 1203
 get 1204
-end

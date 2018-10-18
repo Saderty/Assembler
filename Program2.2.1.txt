@@ -2,8 +2,8 @@ set 1100 5
 set 1200 11
 set 1201 22
 set 1202 23
-set 1203 ae
-set 1204 bc
+set 1203 09
+set 1204 1e
 lda 1100
 mov b a
 sub a
@@ -13,6 +13,6 @@ dcr b
 jz 15
 inx h
 jmp 10
-get a
 end
+get a
 -worked

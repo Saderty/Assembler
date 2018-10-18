@@ -12,8 +12,8 @@ jz 14
 inx h
 inx b
 jmp 7
+end
 get 1200
 get 1201
 get 1202
 get 1203
-end

@@ -16,9 +16,9 @@ jz 18
 inx d
 inx h
 jmp 9
+end
 get 1100
 get 1101
 get 1102
-end
 -Младшие биты вначале
 -Worked

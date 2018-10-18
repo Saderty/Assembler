@@ -4,16 +4,16 @@ import java.io.File;
 import java.io.IOException;
 
 import static Memory.Memory.*;
-import static Support.ArrayOperations.MoveArray;
 import static Support.ArrayOperations.TrimArray;
 import static Support.FileOperations.ReadFile;
 
-//TODO : Add Flags
 public class Assembler {
     private File programFile = new File("Program.txt");
 
     final private String commentary = "#";
     private int counter = 0;
+    private int counterSave;
+    private String[] labels;
 
     private String[] readProgram() throws IOException {
         String[] program = ReadFile(programFile);
@@ -36,11 +36,48 @@ public class Assembler {
         for (int i = 0; i < program.length; i++) {
             addresses[i] = program[i].toUpperCase();
         }
+
+        //Find goto
+        labels = new String[program.length];
+        for (int i = 0; i < program.length; i++) {
+            if (program[i].contains(":")) {
+                labels[i] = program[i].toUpperCase().replaceAll(":", "") + " " + i;
+            }
+        }
+    }
+
+    private void toGoto(String s) {
+        for (String aGoto : labels) {
+            if (aGoto != null) {
+                if (s.equals(aGoto.split(" ")[0])) {
+                    System.out.println(aGoto);
+                    counter = Integer.parseInt(aGoto.split(" ")[1]);
+                }
+            }
+        }
     }
 
     private void runOperations(String program) {
         String[] arguments = program.split(" ");
+
         switch (arguments[0]) {
+            case "CALL":
+                counterSave = counter;
+                counter = Integer.parseInt(arguments[1]);
+                break;
+
+            case "RET":
+                counter = counterSave + 1;
+                break;
+
+            case "PUSH":
+
+                break;
+
+            case "INR":
+                incRegister(getRegister(arguments[1]));
+                break;
+
             case "MVI":
                 getRegister(arguments[1]).setValue(arguments[2]);
                 counter++;
@@ -76,7 +113,7 @@ public class Assembler {
                 break;
 
             case "SUB":
-                subRegister(getRegister(arguments[1]), getRegister(arguments[2]));
+                subRegister(regA, getRegister(arguments[1]));
                 counter++;
                 break;
 
@@ -124,12 +161,14 @@ public class Assembler {
                 break;
 
             case "JMP":
-                counter = Integer.parseInt(arguments[1]);
+                //counter = Integer.parseInt(arguments[1]);
+                toGoto(arguments[1]);
                 break;
 
             case "JC":
                 if (flagC) {
-                    counter = Integer.parseInt(arguments[1]);
+                    //counter = Integer.parseInt(arguments[1]);
+                    toGoto(arguments[1]);
                     flagC = false;
                 } else {
                     counter++;
@@ -138,7 +177,8 @@ public class Assembler {
 
             case "JNC":
                 if (!flagC) {
-                    counter = Integer.parseInt(arguments[1]);
+                    //counter = Integer.parseInt(arguments[1]);
+                    toGoto(arguments[1]);
                     //flagC = false;
                 } else {
                     counter++;
@@ -147,7 +187,8 @@ public class Assembler {
 
             case "JZ":
                 if (flagZ) {
-                    counter = Integer.parseInt(arguments[1]);
+                    //counter = Integer.parseInt(arguments[1]);
+                    toGoto(arguments[1]);
                     flagZ = false;
                 } else {
                     counter++;
@@ -156,7 +197,8 @@ public class Assembler {
 
             case "JNZ":
                 if (!flagZ) {
-                    counter = Integer.parseInt(arguments[1]);
+                    //counter = Integer.parseInt(arguments[1]);
+                    toGoto(arguments[1]);
                     //flagZ = false;
                 } else {
                     counter++;
@@ -188,6 +230,10 @@ public class Assembler {
             default:
                 break;
         }
+        //goto
+        if (arguments[0].contains(":")) {
+            counter++;
+        }
     }
 
     private void runProgram() throws IOException {
@@ -200,11 +246,10 @@ public class Assembler {
             System.out.println();
         }
         counter++;
-        while (!addresses[counter].equals("00")) {
+        while (addresses[counter].contains("GET")) {
             System.out.println("Counter : " + counter);
             runOperations(addresses[counter]);
             System.out.println();
-            //counter++;
         }
     }
 
