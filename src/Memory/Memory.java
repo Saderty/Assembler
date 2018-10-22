@@ -155,6 +155,7 @@ public class Memory {
             if (register == aRegPair[0]) {
                 String tmp = getRegisterPairValue(aRegPair[0]);
                 tmp = addHex(tmp, "1");
+                //tmp= String.valueOf(Integer.parseInt(tmp)+1);
                 while (tmp.length() < 4) {
                     tmp = "0" + tmp;
                 }

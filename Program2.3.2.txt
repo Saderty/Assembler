@@ -9,19 +9,22 @@ set 1107 32
 mvi l 08
 lxi b 1100
 lxi d 1200
+m2:
 ldax b
 cpi 30
-jc 18
+jc m1
 cpi cc
-jnc 18
+jnc m1
 stax d
 inx d
+m1:
 inx b
 dcr l
-jnz 11
+jnz m2
 end
 get 1200
 get 1201
 get 1202
 get 1203
 get 1204
+-Worked

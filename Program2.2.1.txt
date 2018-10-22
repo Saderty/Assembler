@@ -1,4 +1,4 @@
-set 1100 5
+set 1100 05
 set 1200 11
 set 1201 22
 set 1202 23
@@ -8,11 +8,13 @@ lda 1100
 mov b a
 sub a
 lxi h 1200
+m2:
 add m
 dcr b
-jz 15
+jz m1
 inx h
-jmp 10
+jmp m2
+m1:
 end
 get a
--worked
+-Worked

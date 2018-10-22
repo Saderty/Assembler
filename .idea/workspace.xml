@@ -7,6 +7,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d0b742b-db81-4473-9bac-8de7a7d6078c" name="Default" comment="Added Memory class">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Saderty.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Saderty.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program2.2.1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program2.2.1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program2.2.2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program2.2.2.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program2.3.1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program2.3.1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program2.3.2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program2.3.2.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Assembler/Assembler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assembler/Assembler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Assembler/Memory/Memory.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assembler/Memory/Memory.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Assembler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Assembler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Memory/Memory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Memory/Memory.java" afterDir="false" />
     </list>
@@ -20,11 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Assembler.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Assembler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Assembler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="360" column="27" lean-forward="true" selection-start-line="360" selection-start-column="27" selection-end-line="360" selection-end-column="27" />
+            <state relative-caret-position="136">
+              <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -32,52 +40,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Memory.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Memory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Memory/Memory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="58" column="25" selection-start-line="58" selection-start-column="25" selection-end-line="58" selection-end-column="25" />
-              <folding>
-                <element signature="e#1800#1801#0" expanded="true" />
-                <element signature="e#1836#1837#0" expanded="true" />
-                <element signature="e#3304#3305#0" expanded="true" />
-                <element signature="e#3354#3355#0" expanded="true" />
-                <element signature="e#3422#3423#0" expanded="true" />
-                <element signature="e#3478#3479#0" expanded="true" />
-                <element signature="e#3482#3483#0" expanded="true" />
-                <element signature="e#3524#3525#0" expanded="true" />
-                <element signature="e#3581#3582#0" expanded="true" />
-                <element signature="e#3624#3625#0" expanded="true" />
-                <element signature="e#6062#6063#0" expanded="true" />
-                <element signature="e#6100#6101#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FileOperations.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Support/FileOperations.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="29" selection-start-line="4" selection-start-column="29" selection-end-line="4" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ArrayOperations.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Support/ArrayOperations.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Program.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Program.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+            <state relative-caret-position="305">
+              <caret line="157" column="18" selection-start-line="157" selection-start-column="18" selection-end-line="157" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -100,6 +67,7 @@
       <find>-ff</find>
       <find>flag</find>
       <find>ana</find>
+      <find>inx</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -112,18 +80,18 @@
         <option value="$PROJECT_DIR$/src/Memory.java" />
         <option value="$PROJECT_DIR$/src/Support/FileOperations.java" />
         <option value="$PROJECT_DIR$/src/Support/ArrayOperations.java" />
-        <option value="$PROJECT_DIR$/Program2.2.1.txt" />
-        <option value="$PROJECT_DIR$/Program2.2.2.txt" />
-        <option value="$PROJECT_DIR$/Program2.3.2.txt" />
         <option value="$PROJECT_DIR$/Program2.4.1.txt" />
         <option value="$PROJECT_DIR$/Program2.5.txt" />
         <option value="$PROJECT_DIR$/Program2.4.txt" />
         <option value="$PROJECT_DIR$/Program3.1.txt" />
         <option value="$PROJECT_DIR$/Program3.2.2.txt" />
         <option value="$PROJECT_DIR$/Program3.3.txt" />
-        <option value="$PROJECT_DIR$/Program2.3.1.txt" />
         <option value="$PROJECT_DIR$/Program.txt" />
+        <option value="$PROJECT_DIR$/Program2.3.2.txt" />
+        <option value="$PROJECT_DIR$/Program2.3.1.txt" />
         <option value="$PROJECT_DIR$/src/Memory/Memory.java" />
+        <option value="$PROJECT_DIR$/Program2.2.1.txt" />
+        <option value="$PROJECT_DIR$/Program2.2.2.txt" />
         <option value="$PROJECT_DIR$/src/Assembler.java" />
       </list>
     </option>
@@ -297,7 +265,7 @@
       <workItem from="1539836267798" duration="4476000" />
       <workItem from="1539871873978" duration="5645000" />
       <workItem from="1539886293337" duration="2228000" />
-      <workItem from="1540220778352" duration="15618000" />
+      <workItem from="1540220778352" duration="16865000" />
     </task>
     <task id="LOCAL-00001" summary="Added Support&#10;Added program reader">
       <created>1539252801211</created>
@@ -324,7 +292,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80589000" />
+    <option name="totallyTimeSpent" value="81836000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="684" y="0" width="1243" height="1047" extended-state="0" />
@@ -626,13 +594,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program2.2.1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="6" lean-forward="true" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Support/ArrayOperations.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -640,52 +601,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program3.2.2.txt">
+    <entry file="file://$PROJECT_DIR$/Program.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="11" lean-forward="true" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
+        <state relative-caret-position="170">
+          <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Program3.3.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
+        <state relative-caret-position="799">
           <caret line="47" column="3" selection-start-line="47" selection-start-column="3" selection-end-line="47" selection-end-column="3" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program2.3.1.txt">
+    <entry file="file://$PROJECT_DIR$/Program3.2.2.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="8" lean-forward="true" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program2.2.2.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="7" selection-end-line="23" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program2.4.1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="3" selection-start-line="17" selection-start-column="3" selection-end-line="17" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program2.3.2.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="11" lean-forward="true" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program2.4.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="7" lean-forward="true" selection-end-line="19" selection-end-column="3" />
+        <state relative-caret-position="34">
+          <caret line="2" column="11" lean-forward="true" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -703,40 +636,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Program.txt">
+    <entry file="file://$PROJECT_DIR$/Program2.4.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+        <state relative-caret-position="187">
+          <caret line="11" column="2" lean-forward="true" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Assembler.java">
+    <entry file="file://$PROJECT_DIR$/Program2.4.1.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="360" column="27" lean-forward="true" selection-start-line="360" selection-start-column="27" selection-end-line="360" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="153">
+          <caret line="9" column="7" lean-forward="true" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program2.3.2.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="7" selection-start-line="29" selection-start-column="7" selection-end-line="29" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program2.3.1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program2.2.1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="2" selection-start-line="19" selection-start-column="2" selection-end-line="19" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Program2.2.2.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="3" selection-start-line="18" selection-start-column="3" selection-end-line="18" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Memory/Memory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="58" column="25" selection-start-line="58" selection-start-column="25" selection-end-line="58" selection-end-column="25" />
+        <state relative-caret-position="305">
+          <caret line="157" column="18" selection-start-line="157" selection-start-column="18" selection-end-line="157" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Assembler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
           <folding>
-            <element signature="e#1800#1801#0" expanded="true" />
-            <element signature="e#1836#1837#0" expanded="true" />
-            <element signature="e#3304#3305#0" expanded="true" />
-            <element signature="e#3354#3355#0" expanded="true" />
-            <element signature="e#3422#3423#0" expanded="true" />
-            <element signature="e#3478#3479#0" expanded="true" />
-            <element signature="e#3482#3483#0" expanded="true" />
-            <element signature="e#3524#3525#0" expanded="true" />
-            <element signature="e#3581#3582#0" expanded="true" />
-            <element signature="e#3624#3625#0" expanded="true" />
-            <element signature="e#6062#6063#0" expanded="true" />
-            <element signature="e#6100#6101#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -7,8 +7,9 @@ import static Memory.Memory.*;
 import static Support.ArrayOperations.TrimArray;
 import static Support.FileOperations.ReadFile;
 
+//TODO : INX command,  register dec to hex
 public class Assembler {
-    private File programFile = new File("Program.txt");
+    private File programFile = new File("Program2.2.2.txt");
     private String[] program;
 
     final private String commentary = "#";

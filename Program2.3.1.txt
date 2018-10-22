@@ -5,13 +5,15 @@ set 1103 bc
 mvi d 04
 lxi h 1100
 lxi b 1200
+m2:
 mov a m
 stax b
 dcr d
-jz 14
+jz m1
 inx h
 inx b
-jmp 7
+jmp m2
+m1:
 end
 get 1200
 get 1201

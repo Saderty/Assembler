@@ -7,15 +7,16 @@ set 1202 1f
 mvi b 03
 lxi d 1100
 lxi h 1200
+m2:
 ldax d
 adc m
 stax d
-get 1100
 dcr b
-jz 18
+jz m1
 inx d
 inx h
-jmp 9
+jmp m2
+m1:
 end
 get 1100
 get 1101
