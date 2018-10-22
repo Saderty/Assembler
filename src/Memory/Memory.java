@@ -1,7 +1,7 @@
 package Memory;
 
 public class Memory {
-    private static final int bit = 16;
+    public static final int bit = 16;
     private static final String doubleByte = "100";
     private static final String sDoubleByte = "-100";
 
@@ -125,22 +125,24 @@ public class Memory {
         addRegister(reg0, "-" + reg1.getValue());
     }
 
-    public static void addRegister(Register reg0, String reg1) {
-        String a = reg0.getValue();
-
-        String c = addHex(a, reg1);
-
-        c = normalise(c);
-
-        reg0.setValue(c);
-    }
-
     public static void incRegister(Register register) {
         addRegister(register, "1");
     }
 
     public static void decRegister(Register register) {
         addRegister(register, "-1");
+    }
+
+    public static void addRegister(Register reg0, String reg1) {
+        String a = reg0.getValue();
+        String c = addHex(a, reg1);
+        c = normalise(c);
+        if (reg0 == regA) {
+            if (Integer.parseInt(c, bit) % 2 == 0) {
+                flagP = true;
+            }
+        }
+        reg0.setValue(c);
     }
 
     public static String getRegisterPairValue(Register register) {
@@ -192,23 +194,36 @@ public class Memory {
         }
         String aa = Integer.toHexString(a);
         aa = normalise(aa);
+
+        if (Integer.parseInt(aa, bit) % 2 == 0) {
+            flagP = true;
+        }
+
         regA.setValue(aa);
+    }
+
+    public static void setAddress(Register reg0, Register reg1) {
+        setAddress(Integer.parseInt(getRegisterPairValue(reg0)), reg1.getValue());
+    }
+
+    public static void setAddress(int address, String s) {
+        addresses[address] = s;
     }
 
     public static void pushStack(Register register) {
         for (int i = 0; i < regPair.length; i++) {
             if (regPair[i][0] == register) {
-                regPairStack[i][0] = regPair[i][0];
-                regPairStack[i][1] = regPair[i][1];
+                regPairStack[i][0].setValue(regPair[i][0].getValue());
+                regPairStack[i][1].setValue(regPair[i][1].getValue());
             }
         }
     }
 
-    public static void popStack(Register register){
+    public static void popStack(Register register) {
         for (int i = 0; i < regPair.length; i++) {
             if (regPair[i][0] == register) {
-                regPair[i][0] = regPairStack[i][0];
-                regPair[i][1] = regPairStack[i][1];
+                regPair[i][0].setValue(regPairStack[i][0].getValue());
+                regPair[i][1].setValue(regPairStack[i][1].getValue());
             }
         }
     }

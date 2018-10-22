@@ -1,0 +1,31 @@
+set 8400 a3
+set 8401 61
+set 8402 04
+set 8403 81
+set 8404 e6
+set 8405 80
+set 8406 a3
+lxi h 8400
+lxi d 8500
+mov b m
+m2:
+inx h
+mov a m
+mvi c 10
+ana c
+jnz m1
+mov a m
+mvi c 02
+ana c
+jnz m1
+m3:
+dcr b
+jnz m2
+end
+get 8500
+get 8501
+m1:
+mov a m
+stax d
+inx d
+jmp m3

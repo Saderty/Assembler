@@ -1,20 +1,48 @@
-lxi d
-mvi l 08
-a:
-mov a b
-ral
-mov b a
-mod a d
-ral
-sub c
-jnc b
-add c
-b:
-mov d a
-cmc
-mov a e
-ral
-mov e a
-dcr l
-jnz a
+set 1000 06
+set 1001 09
+set 1002 08
+set 1003 02
+set 1004 05
+set 1005 03
+lxi b 1000
+lxi d 1100
+mvi h 06
+m1:
+ldax b
+call mc
+inx d
+m2:
+inx b
+dcr h
+jnz m1
 end
+get 1100
+get 1101
+get 1102
+get 1103
+get 1104
+get 1105
+mc:
+push b
+mov b a
+push h
+mvi h 00
+sub a
+push d
+mvi d 00
+m3:
+inr h
+mov a h
+rar
+jnc m3
+ral
+cpi ff
+add d
+mov d a
+dcr b
+jnz m3
+pop d
+stax d
+pop h
+pop b
+ret

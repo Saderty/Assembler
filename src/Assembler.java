@@ -9,6 +9,7 @@ import static Support.FileOperations.ReadFile;
 
 public class Assembler {
     private File programFile = new File("Program.txt");
+    private String[] program;
 
     final private String commentary = "#";
     private int counter = 0;
@@ -31,7 +32,7 @@ public class Assembler {
             addresses[i] = "00";
         }
 
-        String[] program = readProgram();
+        program = readProgram();
 
         for (int i = 0; i < program.length; i++) {
             addresses[i] = program[i].toUpperCase();
@@ -50,7 +51,7 @@ public class Assembler {
         for (String aGoto : labels) {
             if (aGoto != null) {
                 if (s.equals(aGoto.split(" ")[0])) {
-                    counter = Integer.parseInt(aGoto.split(" ")[1])+1;
+                    counter = Integer.parseInt(aGoto.split(" ")[1]) + 1;
                 }
             }
         }
@@ -71,7 +72,6 @@ public class Assembler {
                 break;
 
             case "PUSH":
-                //addresses[counter] = getRegisterPairValue(getRegister(arguments[1]));
                 pushStack(getRegister(arguments[1]));
                 counter++;
                 break;
@@ -96,8 +96,46 @@ public class Assembler {
                 counter++;
                 break;
 
+            case "ANA":
+                int a3 = Integer.parseInt(regA.getValue(), bit);
+                int b3;
+
+                if (arguments[1].equals("M")) {
+                    b3 = Integer.parseInt(getRegisterPairAddressValue(regH));
+                } else {
+                    b3 = Integer.parseInt(getRegister(arguments[1]).getValue(), bit);
+                }
+                int c3 = a3 & b3;
+                String cc3 = Integer.toHexString(c3);
+
+                regA.setValue(cc3);
+
+                counter++;
+                break;
+
+            case "XRA":
+                int a = Integer.parseInt(regA.getValue(), bit);
+                int b;
+
+                if (arguments[1].equals("M")) {
+                    b = Integer.parseInt(getRegisterPairAddressValue(regH));
+                } else {
+                    b = Integer.parseInt(getRegister(arguments[1]).getValue(), bit);
+                }
+                int c = a ^ b;
+                String cc = Integer.toHexString(c);
+
+                regA.setValue(cc);
+
+                counter++;
+                break;
+
             case "MVI":
-                getRegister(arguments[1]).setValue(arguments[2]);
+                if (arguments[1].equals("M")) {
+                    getRegister(arguments[1]).setValue(getRegisterPairAddressValue(regH));
+                } else {
+                    getRegister(arguments[1]).setValue(arguments[2]);
+                }
                 counter++;
                 break;
 
@@ -124,9 +162,14 @@ public class Assembler {
                 break;
 
             case "CPI":
-                int a = Integer.parseInt(regA.getValue(), 16);
-                int b = Integer.parseInt(arguments[1], 16);
-                flagC = a < b;
+                int a2 = Integer.parseInt(regA.getValue(), 16);
+                int b2 = Integer.parseInt(arguments[1], 16);
+                flagC = a2 < b2;
+                counter++;
+                break;
+
+            case "CMC":
+                flagC = !flagC;
                 counter++;
                 break;
 
@@ -179,13 +222,11 @@ public class Assembler {
                 break;
 
             case "JMP":
-                //counter = Integer.parseInt(arguments[1]);
                 toGoto(arguments[1]);
                 break;
 
             case "JC":
                 if (flagC) {
-                    //counter = Integer.parseInt(arguments[1]);
                     toGoto(arguments[1]);
                     flagC = false;
                 } else {
@@ -195,17 +236,15 @@ public class Assembler {
 
             case "JNC":
                 if (!flagC) {
-                    //counter = Integer.parseInt(arguments[1]);
                     toGoto(arguments[1]);
-                    //flagC = false;
                 } else {
+                    flagC = false;
                     counter++;
                 }
                 break;
 
             case "JZ":
                 if (flagZ) {
-                    //counter = Integer.parseInt(arguments[1]);
                     toGoto(arguments[1]);
                     flagZ = false;
                 } else {
@@ -215,23 +254,41 @@ public class Assembler {
 
             case "JNZ":
                 if (!flagZ) {
-                    //counter = Integer.parseInt(arguments[1]);
                     toGoto(arguments[1]);
-                    //flagZ = false;
+                } else {
+                    flagZ = false;
+                    counter++;
+                }
+                break;
+
+            case "JPE":
+                if (flagP) {
+                    toGoto(arguments[1]);
+                    flagP = false;
+                } else {
+                    counter++;
+                }
+                break;
+
+            case "JPO":
+                if (!flagP) {
+                    toGoto(arguments[1]);
                 } else {
                     counter++;
                 }
                 break;
 
             case "STAX"://RegA -> RP -> a16
-                addresses[Integer.parseInt(getRegisterPairValue(getRegister(arguments[1])))] =
-                        regA.getValue();
+                //addresses[Integer.parseInt(getRegisterPairValue(getRegister(arguments[1])))] =
+                //        regA.getValue();
+                setAddress(getRegister(arguments[1]),regA);
                 regA.setValue("00");
                 counter++;
                 break;
 
             case "SET":
-                addresses[Integer.parseInt(arguments[1])] = arguments[2];
+                //addresses[Integer.parseInt(arguments[1])] = arguments[2];
+                setAddress(Integer.parseInt(arguments[1]),arguments[2]);
                 counter++;
                 break;
 
@@ -257,10 +314,11 @@ public class Assembler {
     private void runProgram() throws IOException {
         loadToAddresses();
         while (!addresses[counter].equals("END")) {
-            System.out.println("Counter : " + counter);
+            System.out.println("Counter : " + counter + "     " + program[counter]);
             runOperations(addresses[counter]);
             displayRegisters();
             displayFlags();
+            displayRegistersStack();
             System.out.println();
         }
         counter++;
@@ -298,10 +356,38 @@ public class Assembler {
         System.out.println(registers);
     }
 
+    private void displayRegistersStack() {
+        String registers = "";
+        registers += "A : ";
+        registers += "--";
+        registers += " | ";
+        registers += "B : ";
+        registers += regBStack.getValue();
+        registers += " | ";
+        registers += "C : ";
+        registers += regCStack.getValue();
+        registers += " | ";
+        registers += "D : ";
+        registers += regDStack.getValue();
+        registers += " | ";
+        registers += "E : ";
+        registers += regEStack.getValue();
+        registers += " | ";
+        registers += "H : ";
+        registers += regHStack.getValue();
+        registers += " | ";
+        registers += "L : ";
+        registers += regLStack.getValue();
+        registers += " | ";
+
+        System.out.println(registers);
+    }
+
     private void displayFlags() {
         String flags = "";
         flags += "C : " + flagC + " | ";
         flags += "Z : " + flagZ + " | ";
+        flags += "P : " + flagP + " | ";
 
         System.out.println(flags);
     }
