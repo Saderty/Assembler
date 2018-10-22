@@ -50,8 +50,7 @@ public class Assembler {
         for (String aGoto : labels) {
             if (aGoto != null) {
                 if (s.equals(aGoto.split(" ")[0])) {
-                    System.out.println(aGoto);
-                    counter = Integer.parseInt(aGoto.split(" ")[1]);
+                    counter = Integer.parseInt(aGoto.split(" ")[1])+1;
                 }
             }
         }
@@ -63,7 +62,8 @@ public class Assembler {
         switch (arguments[0]) {
             case "CALL":
                 counterSave = counter;
-                counter = Integer.parseInt(arguments[1]);
+                //counter = Integer.parseInt(arguments[1]);
+                toGoto(arguments[1]);
                 break;
 
             case "RET":
@@ -71,11 +71,29 @@ public class Assembler {
                 break;
 
             case "PUSH":
+                //addresses[counter] = getRegisterPairValue(getRegister(arguments[1]));
+                pushStack(getRegister(arguments[1]));
+                counter++;
+                break;
 
+            case "POP":
+                popStack(getRegister(arguments[1]));
+                counter++;
                 break;
 
             case "INR":
                 incRegister(getRegister(arguments[1]));
+                counter++;
+                break;
+
+            case "RAR":
+                cycleShift(true);
+                counter++;
+                break;
+
+            case "RAL":
+                cycleShift(false);
+                counter++;
                 break;
 
             case "MVI":

@@ -1,0 +1,19 @@
+lxi b 0000
+mvi a 01
+ana a
+a:
+push
+ana e
+mov a b
+jz b
+add d
+b:
+rar
+mov b a
+mov a e
+rar
+mov c a
+pop psw
+pal
+jnc a
+ret

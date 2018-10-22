@@ -5,7 +5,7 @@ public class Memory {
     private static final String doubleByte = "100";
     private static final String sDoubleByte = "-100";
 
-    public static String[] addresses = new String[2000];
+    public static String[] addresses = new String[9000];
 
     public static boolean flagS;
     public static boolean flagZ;
@@ -20,10 +20,22 @@ public class Memory {
     public static Register regH = new Register();
     public static Register regL = new Register();
 
+    public static Register regBStack = new Register();
+    public static Register regCStack = new Register();
+    public static Register regDStack = new Register();
+    public static Register regEStack = new Register();
+    public static Register regHStack = new Register();
+    public static Register regLStack = new Register();
+
     public static Register[][] regPair = {
             {regB, regC},
             {regD, regE},
             {regH, regL}};
+
+    public static Register[][] regPairStack = {
+            {regBStack, regCStack},
+            {regDStack, regEStack},
+            {regHStack, regLStack}};
     /*
         static  class Address {
             private int address;
@@ -140,6 +152,19 @@ public class Memory {
         return null;
     }
 
+    public static void setRegisterPairValue(Register register, String s) {
+        for (Register[] aRegPair : regPair) {
+            if (register == aRegPair[0]) {
+                String tmp = s;
+                while (tmp.length() < 4) {
+                    tmp = "0" + tmp;
+                }
+                aRegPair[0].setValue(tmp.substring(0, 2));
+                aRegPair[1].setValue(tmp.substring(2, 4));
+            }
+        }
+    }
+
     public static void incRegisterPair(Register register) {
         for (Register[] aRegPair : regPair) {
             if (register == aRegPair[0]) {
@@ -158,4 +183,33 @@ public class Memory {
         return addresses[Integer.parseInt(getRegisterPairValue(register))];
     }
 
+    public static void cycleShift(boolean s) {
+        int a = Integer.parseInt(regA.getValue(), 16);
+        if (s) {
+            a >>= 1;
+        } else {
+            a <<= 1;
+        }
+        String aa = Integer.toHexString(a);
+        aa = normalise(aa);
+        regA.setValue(aa);
+    }
+
+    public static void pushStack(Register register) {
+        for (int i = 0; i < regPair.length; i++) {
+            if (regPair[i][0] == register) {
+                regPairStack[i][0] = regPair[i][0];
+                regPairStack[i][1] = regPair[i][1];
+            }
+        }
+    }
+
+    public static void popStack(Register register){
+        for (int i = 0; i < regPair.length; i++) {
+            if (regPair[i][0] == register) {
+                regPair[i][0] = regPairStack[i][0];
+                regPair[i][1] = regPairStack[i][1];
+            }
+        }
+    }
 }
