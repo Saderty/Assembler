@@ -12,6 +12,7 @@ public class Memory {
     public static boolean flagP;
     public static boolean flagC;
 
+
     public static Register regA = new Register();
     public static Register regB = new Register();
     public static Register regC = new Register();
@@ -19,6 +20,8 @@ public class Memory {
     public static Register regE = new Register();
     public static Register regH = new Register();
     public static Register regL = new Register();
+
+    public static Register regM = new Register();
 
     public static Register regBStack = new Register();
     public static Register regCStack = new Register();
@@ -32,37 +35,10 @@ public class Memory {
             {regD, regE},
             {regH, regL}};
 
-    public static Register[][] regPairStack = {
+    private static Register[][] regPairStack = {
             {regBStack, regCStack},
             {regDStack, regEStack},
             {regHStack, regLStack}};
-    /*
-        static  class Address {
-            private int address;
-            private String value;
-    
-            Address(int address) {
-                this.address = address;
-                value = "00";
-            }
-    
-            public void setAddress(int address) {
-                this.address = address;
-            }
-    
-            public void setValue(String value) {
-                this.value = value;
-            }
-    
-            public int getAddress() {
-                return address;
-            }
-    
-            public String getValue() {
-                return value;
-            }
-        }
-    */
 
     public static class Register {
         private String value;
@@ -96,6 +72,10 @@ public class Memory {
                 return regH;
             case "L":
                 return regL;
+
+            case "M":
+                regM.setValue(getRegisterPairAddressValue(regH));
+                return regM;
         }
         return null;
     }
@@ -113,7 +93,6 @@ public class Memory {
                 s = "0" + s;
             }
         }
-
         return s;
     }
 
@@ -183,6 +162,48 @@ public class Memory {
 
     public static String getRegisterPairAddressValue(Register register) {
         return addresses[Integer.parseInt(getRegisterPairValue(register))];
+    }
+
+    public static void andShift(String s) {
+        int a = Integer.parseInt(regA.getValue(), bit);
+        int b;
+
+        if (s.toUpperCase().equals("M")) {
+            b = Integer.parseInt(getRegisterPairAddressValue(regH));
+        } else {
+            b = Integer.parseInt(getRegister(s).getValue(), bit);
+        }
+        String c = Integer.toHexString(a & b);
+
+        regA.setValue(c);
+    }
+
+    public static void orShift(String s) {
+        int a = Integer.parseInt(regA.getValue(), bit);
+        int b;
+
+        if (s.toUpperCase().equals("M")) {
+            b = Integer.parseInt(getRegisterPairAddressValue(regH));
+        } else {
+            b = Integer.parseInt(getRegister(s).getValue(), bit);
+        }
+        String c = Integer.toHexString(a | b);
+
+        regA.setValue(c);
+    }
+
+    public static void xraShift(String s) {
+        int a = Integer.parseInt(regA.getValue(), bit);
+        int b;
+
+        if (s.toUpperCase().equals("M")) {
+            b = Integer.parseInt(getRegisterPairAddressValue(regH));
+        } else {
+            b = Integer.parseInt(getRegister(s).getValue(), bit);
+        }
+        String c = Integer.toHexString(a ^ b);
+
+        regA.setValue(c);
     }
 
     public static void cycleShift(boolean s) {

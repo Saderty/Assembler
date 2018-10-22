@@ -13,7 +13,7 @@ public class Assembler {
 
     final private String commentary = "#";
     private int counter = 0;
-    private int counterSave;
+    private int counterStack;
     private String[] labels;
 
     private String[] readProgram() throws IOException {
@@ -62,13 +62,12 @@ public class Assembler {
 
         switch (arguments[0]) {
             case "CALL":
-                counterSave = counter;
-                //counter = Integer.parseInt(arguments[1]);
+                counterStack = counter;
                 toGoto(arguments[1]);
                 break;
 
             case "RET":
-                counter = counterSave + 1;
+                counter = counterStack + 1;
                 break;
 
             case "PUSH":
@@ -97,36 +96,17 @@ public class Assembler {
                 break;
 
             case "ANA":
-                int a3 = Integer.parseInt(regA.getValue(), bit);
-                int b3;
+                andShift(arguments[1]);
+                counter++;
+                break;
 
-                if (arguments[1].equals("M")) {
-                    b3 = Integer.parseInt(getRegisterPairAddressValue(regH));
-                } else {
-                    b3 = Integer.parseInt(getRegister(arguments[1]).getValue(), bit);
-                }
-                int c3 = a3 & b3;
-                String cc3 = Integer.toHexString(c3);
-
-                regA.setValue(cc3);
-
+            case "ORA":
+                orShift(arguments[1]);
                 counter++;
                 break;
 
             case "XRA":
-                int a = Integer.parseInt(regA.getValue(), bit);
-                int b;
-
-                if (arguments[1].equals("M")) {
-                    b = Integer.parseInt(getRegisterPairAddressValue(regH));
-                } else {
-                    b = Integer.parseInt(getRegister(arguments[1]).getValue(), bit);
-                }
-                int c = a ^ b;
-                String cc = Integer.toHexString(c);
-
-                regA.setValue(cc);
-
+                xraShift(arguments[1]);
                 counter++;
                 break;
 
@@ -140,11 +120,12 @@ public class Assembler {
                 break;
 
             case "ADD":
-                if (arguments[1].equals("M")) {
+                /*if (arguments[1].equals("M")) {
                     addRegister(regA, getRegisterPairAddressValue(regH));
                 } else {
                     addRegister(regA, getRegister(arguments[1]));
-                }
+                }*/
+                addRegister(regA,getRegister(arguments[1]));
                 counter++;
                 break;
 
@@ -281,14 +262,14 @@ public class Assembler {
             case "STAX"://RegA -> RP -> a16
                 //addresses[Integer.parseInt(getRegisterPairValue(getRegister(arguments[1])))] =
                 //        regA.getValue();
-                setAddress(getRegister(arguments[1]),regA);
+                setAddress(getRegister(arguments[1]), regA);
                 regA.setValue("00");
                 counter++;
                 break;
 
             case "SET":
                 //addresses[Integer.parseInt(arguments[1])] = arguments[2];
-                setAddress(Integer.parseInt(arguments[1]),arguments[2]);
+                setAddress(Integer.parseInt(arguments[1]), arguments[2]);
                 counter++;
                 break;
 

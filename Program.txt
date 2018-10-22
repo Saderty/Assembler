@@ -1,48 +1,27 @@
-set 1000 06
-set 1001 09
-set 1002 08
-set 1003 02
-set 1004 05
-set 1005 03
-lxi b 1000
-lxi d 1100
-mvi h 06
-m1:
-ldax b
-call mc
-inx d
+set 8300 06
+set 8301 ae
+set 8302 43
+set 8303 9c
+set 8304 ff
+lxi h 8300
+lxi d 8400
+mvi b 05
+mvi c 00
 m2:
-inx b
-dcr h
-jnz m1
-end
-get 1100
-get 1101
-get 1102
-get 1103
-get 1104
-get 1105
-mc:
-push b
-mov b a
-push h
-mvi h 00
-sub a
-push d
-mvi d 00
-m3:
-inr h
-mov a h
-rar
-jnc m3
-ral
-cpi ff
-add d
-mov d a
-dcr b
-jnz m3
-pop d
+mov a m
+inx h
+add c
+jpe md
+jmp m1
+md:
 stax d
-pop h
-pop b
-ret
+inx d
+m1:
+dcr b
+jnz m2
+end
+get 8400
+get 8401
+get 8402
+get 8403
+get 8404
