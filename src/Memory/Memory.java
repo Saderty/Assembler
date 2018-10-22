@@ -48,7 +48,11 @@ public class Memory {
         }
 
         public void setValue(String value) {
-            this.value = value;
+            if (value.toUpperCase().equals("M")) {
+                this.value = getRegister(value).getValue();
+            } else {
+                this.value = value;
+            }
         }
 
         public String getValue() {

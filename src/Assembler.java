@@ -111,11 +111,13 @@ public class Assembler {
                 break;
 
             case "MVI":
-                if (arguments[1].equals("M")) {
+             /*   if (arguments[1].equals("M")) {
                     getRegister(arguments[1]).setValue(getRegisterPairAddressValue(regH));
+                    getRegister(arguments[1]).setValue(getRegister(arguments[2]));
                 } else {
                     getRegister(arguments[1]).setValue(arguments[2]);
-                }
+                }*/
+                getRegister(arguments[1]).setValue(arguments[2]);
                 counter++;
                 break;
 
@@ -125,20 +127,22 @@ public class Assembler {
                 } else {
                     addRegister(regA, getRegister(arguments[1]));
                 }*/
-                addRegister(regA,getRegister(arguments[1]));
+                addRegister(regA, getRegister(arguments[1]));
                 counter++;
                 break;
 
             case "ADC":
-                if (arguments[1].equals("M")) {
-                    if (!flagC) {
-                        addRegister(regA, getRegisterPairAddressValue(regH));
-                    } else {
-                        addRegister(regA, getRegisterPairAddressValue(regH));
-                        incRegister(regA);
-                        flagC = false;
-                    }
+                //  if (arguments[1].equals("M")) {
+                if (!flagC) {
+                    //addRegister(regA, getRegisterPairAddressValue(regH));
+                    addRegister(regA, getRegister(arguments[1]));
+                } else {
+                    // addRegister(regA, getRegisterPairAddressValue(regH));
+                    addRegister(regA, getRegister(arguments[1]));
+                    incRegister(regA);
+                    flagC = false;
                 }
+                // }
                 counter++;
                 break;
 
@@ -169,11 +173,12 @@ public class Assembler {
                 break;
 
             case "MOV"://Reg -> Reg
-                if (arguments[2].equals("M")) {
+            /*    if (arguments[2].equals("M")) {
                     regA.setValue(getRegisterPairAddressValue(regH));
                 } else {
                     getRegister(arguments[1]).setValue(getRegister(arguments[2]).getValue());
-                }
+                }*/
+                getRegister(arguments[1]).setValue(getRegister(arguments[2]).getValue());
                 counter++;
                 break;
 
