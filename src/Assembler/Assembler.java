@@ -11,12 +11,13 @@ import static Support.FileOperations.ReadFile;
 
 //TODO : INX command, register dec to hex
 public class Assembler {
-    private File programFile = new File("Program.txt");
+    private File programFile = new File("Program2.4.1.txt");
     private String[] program;
 
     final private String commentary = "#";
     static int counter = 0;
     static int counterStack;
+    static int SC=5000;
     static String[] labels;
 
     private String[] readProgram() throws IOException {
@@ -56,7 +57,7 @@ public class Assembler {
             Operations.runOperations(addresses[counter]);
             displayRegisters();
             displayFlags();
-            displayRegistersStack();
+            //displayRegistersStack();
             System.out.println();
         }
         counter++;

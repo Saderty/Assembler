@@ -29,12 +29,12 @@ class Operations {
                 break;
 
             case "PUSH":
-                pushStack(getRegister(arguments[1]));
+                pushStack(getRegisterPair(arguments[1]));
                 counter++;
                 break;
 
             case "POP":
-                popStack(getRegister(arguments[1]));
+                popStack(getRegisterPair(arguments[1]));
                 counter++;
                 break;
 
