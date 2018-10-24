@@ -11,7 +11,7 @@ import static Support.FileOperations.ReadFile;
 
 //TODO : INX command, register dec to hex
 public class Assembler {
-    private File programFile = new File("Program2.4.1.txt");
+    private File programFile = new File("Program3.6.txt");
     private String[] program;
 
     final private String commentary = "#";
@@ -57,7 +57,6 @@ public class Assembler {
             Operations.runOperations(addresses[counter]);
             displayRegisters();
             displayFlags();
-            //displayRegistersStack();
             System.out.println();
         }
         counter++;
@@ -90,33 +89,6 @@ public class Assembler {
         registers += " | ";
         registers += "L : ";
         registers += regL.getValue();
-        registers += " | ";
-
-        System.out.println(registers);
-    }
-
-    private void displayRegistersStack() {
-        String registers = "";
-        registers += "A : ";
-        registers += "--";
-        registers += " | ";
-        registers += "B : ";
-        registers += regBStack.getValue();
-        registers += " | ";
-        registers += "C : ";
-        registers += regCStack.getValue();
-        registers += " | ";
-        registers += "D : ";
-        registers += regDStack.getValue();
-        registers += " | ";
-        registers += "E : ";
-        registers += regEStack.getValue();
-        registers += " | ";
-        registers += "H : ";
-        registers += regHStack.getValue();
-        registers += " | ";
-        registers += "L : ";
-        registers += regLStack.getValue();
         registers += " | ";
 
         System.out.println(registers);

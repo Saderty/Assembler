@@ -14,6 +14,7 @@ get 4997
 get 4996
 get 4995
 a:
+push psw
 push b
 push d
 push h
@@ -25,4 +26,5 @@ mov h a
 pop h
 pop d
 pop b
+pop psw
 ret

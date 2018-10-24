@@ -1,0 +1,95 @@
+mov a d
+call mc
+mov b a
+mov a h
+call mc
+sub b
+mov c a
+ani 80
+jz m1
+mov a c
+xchg
+dcr a
+cma
+mov c a
+push b
+jmp m2
+m1:
+mov a c
+add b
+mov b a
+push b
+m2:
+mvi b 0f
+mvi c 10
+mov a h
+ana b
+xra c
+mov h a
+mov a d
+ana b
+xra c
+mov d a
+pop b
+mov a c
+adi 00
+jz m3
+m5:
+mov a d
+rar
+mov d a
+mov a e
+rar
+mov e a
+jnc m4
+cmc
+m4:
+dcr c
+jnz m5
+m3:
+mov a l
+adc e
+mov l a
+mov a h
+adc d
+mov h a
+ani 20
+jz m6
+mov a h
+rar
+mov h a
+mov a l
+rar
+mov l a
+inx b
+mov a h
+ani 0f
+mov h a
+mov a b
+rrc
+rrc
+rrc
+rrc
+xra h
+mov h a
+end
+mc:
+push b
+mvi c f0
+ana c
+rar
+rar
+rar
+rar
+mov b a
+mvi c 08
+ana c
+jz m
+mov a b
+mvi c f0
+xra c
+mov b a
+mov a b
+m:
+pop b
+ret

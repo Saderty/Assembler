@@ -1,8 +1,9 @@
 package Assembler;
 
 import static Assembler.Assembler.SC;
+import static Assembler.Registers.*;
 
-public class Memory {
+class Memory {
     private static final int bit = 16;
     private static final String doubleByte = "100";
     private static final String sDoubleByte = "-100";
@@ -23,42 +24,12 @@ public class Memory {
     static Register regL = new Register();
 
     static Register regM = new Register();
+    static Register regF = new Register();
 
+    static RegisterPair regPSW = new RegisterPair(regA);
     static RegisterPair regBC = new RegisterPair(regB);
     static RegisterPair regDE = new RegisterPair(regD);
     static RegisterPair regHL = new RegisterPair(regH);
-
-    static Register regBStack = new Register();
-    static Register regCStack = new Register();
-    static Register regDStack = new Register();
-    static Register regEStack = new Register();
-    static Register regHStack = new Register();
-    static Register regLStack = new Register();
-
-    static Register[][] regPair = {
-            {regB, regC},
-            {regD, regE},
-            {regH, regL}};
-
-    static class Register {
-        private String value;
-
-        Register() {
-            value = "00";
-        }
-
-        void setValue(String value) {
-            if (value.toUpperCase().equals("M")) {
-                this.value = getRegister(value).getValue();
-            } else {
-                this.value = value;
-            }
-        }
-
-        String getValue() {
-            return value;
-        }
-    }
 
     static Register getRegister(String s) {
         switch (s.toUpperCase()) {
@@ -78,14 +49,18 @@ public class Memory {
                 return regL;
 
             case "M":
-                regM.setValue(getRegisterPairAddressValue(regH));
+                regM.setValue(getRegisterPairAddressValue(regHL));
                 return regM;
+            case "F":
+                return regF;
         }
         return null;
     }
 
     static RegisterPair getRegisterPair(String s) {
         switch (s.toUpperCase()) {
+            case "PSW":
+                return regPSW;
             case "B":
                 return regBC;
             case "D":
@@ -151,44 +126,21 @@ public class Memory {
         reg0.setValue(c);
     }
 
-    static String getRegisterPairValue(Register register) {
-        for (Register[] aRegPair : regPair) {
-            if (register == aRegPair[0]) {
-                return aRegPair[0].getValue() + aRegPair[1].getValue();
-            }
+    static void incRegisterPair(RegisterPair registerPair) {
+        String tmp = registerPair.getValue();
+        tmp = addHex(tmp, "1");
+        while (tmp.length() < 4) {
+            tmp = "0" + tmp;
         }
-        return null;
+        registerPair.setValue(tmp);
     }
 
-    public static void setRegisterPairValue(Register register, String s) {
-        for (Register[] aRegPair : regPair) {
-            if (register == aRegPair[0]) {
-                String tmp = s;
-                while (tmp.length() < 4) {
-                    tmp = "0" + tmp;
-                }
-                aRegPair[0].setValue(tmp.substring(0, 2));
-                aRegPair[1].setValue(tmp.substring(2, 4));
-            }
-        }
+    static String getRegisterPairAddressValue(RegisterPair registerPair) {
+        return addresses[Integer.parseInt(registerPair.getValue())];
     }
 
-    static void incRegisterPair(Register register) {
-        for (Register[] aRegPair : regPair) {
-            if (register == aRegPair[0]) {
-                String tmp = getRegisterPairValue(aRegPair[0]);
-                tmp = addHex(tmp, "1");
-                while (tmp.length() < 4) {
-                    tmp = "0" + tmp;
-                }
-                aRegPair[0].setValue(tmp.substring(0, 2));
-                aRegPair[1].setValue(tmp.substring(2, 4));
-            }
-        }
-    }
-
-    static String getRegisterPairAddressValue(Register register) {
-        return addresses[Integer.parseInt(getRegisterPairValue(register))];
+    static void andShift(Register register) {
+        andShift(register.getValue());
     }
 
     static void andShift(String s) {
@@ -196,9 +148,9 @@ public class Memory {
         int b;
 
         if (s.toUpperCase().equals("M")) {
-            b = Integer.parseInt(getRegisterPairAddressValue(regH));
+            b = Integer.parseInt(getRegisterPairAddressValue(regHL));
         } else {
-            b = Integer.parseInt(getRegister(s).getValue(), bit);
+            b = Integer.parseInt(s, bit);
         }
         String c = Integer.toHexString(a & b);
 
@@ -210,7 +162,7 @@ public class Memory {
         int b;
 
         if (s.toUpperCase().equals("M")) {
-            b = Integer.parseInt(getRegisterPairAddressValue(regH));
+            b = Integer.parseInt(getRegisterPairAddressValue(regHL));
         } else {
             b = Integer.parseInt(getRegister(s).getValue(), bit);
         }
@@ -224,7 +176,7 @@ public class Memory {
         int b;
 
         if (s.toUpperCase().equals("M")) {
-            b = Integer.parseInt(getRegisterPairAddressValue(regH));
+            b = Integer.parseInt(getRegisterPairAddressValue(regHL));
         } else {
             b = Integer.parseInt(getRegister(s).getValue(), bit);
         }
@@ -250,8 +202,8 @@ public class Memory {
         regA.setValue(aa);
     }
 
-    static void setAddress(Register reg0, Register reg1) {
-        setAddress(Integer.parseInt(getRegisterPairValue(reg0)), reg1.getValue());
+    static void setAddress(RegisterPair registerPair, Register reg1) {
+        setAddress(Integer.parseInt(registerPair.getValue()), reg1.getValue());
     }
 
     static void setAddress(int address, String s) {

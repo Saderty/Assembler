@@ -33,9 +33,9 @@ mvi d 00
 m3:
 inr h
 mov a h
-rar
-jnc m3
 ral
+jnc m3
+rar
 cpi ff
 add d
 mov d a

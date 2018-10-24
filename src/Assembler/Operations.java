@@ -1,8 +1,8 @@
 package Assembler;
 
-import static Assembler.Memory.*;
 import static Assembler.Assembler.counter;
 import static Assembler.Assembler.counterStack;
+import static Assembler.Memory.*;
 
 class Operations {
     static void toGoto(String s) {
@@ -38,8 +38,26 @@ class Operations {
                 counter++;
                 break;
 
+            case "XCHG":
+                String de = regDE.getValue();
+                String hl = regHL.getValue();
+                regHL.setValue(de);
+                regDE.setValue(hl);
+                counter++;
+                break;
+
+            case "CMA":
+                regA.setValue(String.valueOf(~Integer.parseInt(regA.getValue())));
+                counter++;
+                break;
+
             case "INR":
                 incRegister(getRegister(arguments[1]));
+                counter++;
+                break;
+
+            case "RRC":
+                cycleShift(true);
                 counter++;
                 break;
 
@@ -55,6 +73,16 @@ class Operations {
 
             case "ANA":
                 andShift(arguments[1]);
+                counter++;
+                break;
+
+            case "ANI":
+                andShift(arguments[1]);
+                counter++;
+                break;
+
+            case "ADI":
+                addRegister(regA, arguments[1]);
                 counter++;
                 break;
 
@@ -126,22 +154,23 @@ class Operations {
                 break;
 
             case "LDAX"://RP -> a16 -> RegA
-                regA.setValue(getRegisterPairAddressValue(getRegister(arguments[1])));
+                regA.setValue(getRegisterPairAddressValue(getRegisterPair(arguments[1])));
                 counter++;
                 break;
 
             case "LXI"://d16 -> RP
-                for (Register[] aRegPair : regPair) {
+              /*  for (Assembler.Registers.Register[] aRegPair : regPair) {
                     if (getRegister(arguments[1]) == aRegPair[0]) {
                         aRegPair[0].setValue(arguments[2].substring(0, 2));
                         aRegPair[1].setValue(arguments[2].substring(2, 4));
                     }
-                }
+                }*/
+                getRegisterPair(arguments[1]).setValue(arguments[2]);
                 counter++;
                 break;
 
             case "INX":
-                incRegisterPair(getRegister(arguments[1]));
+                incRegisterPair(getRegisterPair(arguments[1]));
                 counter++;
                 break;
 
@@ -203,7 +232,7 @@ class Operations {
                 break;
 
             case "STAX"://RegA -> RP -> a16
-                setAddress(getRegister(arguments[1]), regA);
+                setAddress(getRegisterPair(arguments[1]), regA);
                 regA.setValue("00");
                 counter++;
                 break;
