@@ -1,64 +1,21 @@
-import Support.ArrayOperations;
+package Assembler;
 
-import java.io.File;
-import java.io.IOException;
+import static Assembler.Memory.*;
+import static Assembler.Assembler.counter;
+import static Assembler.Assembler.counterStack;
 
-import static Memory.Memory.*;
-import static Support.ArrayOperations.TrimArray;
-import static Support.FileOperations.ReadFile;
-
-//TODO : INX command,  register dec to hex
-public class Assembler {
-    private File programFile = new File("Program2.2.2.txt");
-    private String[] program;
-
-    final private String commentary = "#";
-    private int counter = 0;
-    private int counterStack;
-    private String[] labels;
-
-    private String[] readProgram() throws IOException {
-        String[] program = ReadFile(programFile);
-
-        for (int i = 0; i < program.length; i++) {
-            if (program[i].split("", 2)[0].equals(commentary)) {
-                program[i] = null;
-            }
-        }
-        return TrimArray(program, ArrayOperations.SPACE);
-    }
-
-    private void loadToAddresses() throws IOException {
-        for (int i = 0; i < addresses.length; i++) {
-            addresses[i] = "00";
-        }
-
-        program = readProgram();
-
-        for (int i = 0; i < program.length; i++) {
-            addresses[i] = program[i].toUpperCase();
-        }
-
-        //Find goto
-        labels = new String[program.length];
-        for (int i = 0; i < program.length; i++) {
-            if (program[i].contains(":")) {
-                labels[i] = program[i].toUpperCase().replaceAll(":", "") + " " + i;
-            }
-        }
-    }
-
-    private void toGoto(String s) {
-        for (String aGoto : labels) {
+class Operations {
+    static void toGoto(String s) {
+        for (String aGoto : Assembler.labels) {
             if (aGoto != null) {
                 if (s.equals(aGoto.split(" ")[0])) {
-                    counter = Integer.parseInt(aGoto.split(" ")[1]) + 1;
+                    Assembler.counter = Integer.parseInt(aGoto.split(" ")[1]) + 1;
                 }
             }
         }
     }
 
-    private void runOperations(String program) {
+    static void runOperations(String program) {
         String[] arguments = program.split(" ");
 
         switch (arguments[0]) {
@@ -68,7 +25,7 @@ public class Assembler {
                 break;
 
             case "RET":
-                counter = counterStack + 1;
+                counter = Assembler.counterStack + 1;
                 break;
 
             case "PUSH":
@@ -112,38 +69,23 @@ public class Assembler {
                 break;
 
             case "MVI":
-             /*   if (arguments[1].equals("M")) {
-                    getRegister(arguments[1]).setValue(getRegisterPairAddressValue(regH));
-                    getRegister(arguments[1]).setValue(getRegister(arguments[2]));
-                } else {
-                    getRegister(arguments[1]).setValue(arguments[2]);
-                }*/
                 getRegister(arguments[1]).setValue(arguments[2]);
                 counter++;
                 break;
 
             case "ADD":
-                /*if (arguments[1].equals("M")) {
-                    addRegister(regA, getRegisterPairAddressValue(regH));
-                } else {
-                    addRegister(regA, getRegister(arguments[1]));
-                }*/
                 addRegister(regA, getRegister(arguments[1]));
                 counter++;
                 break;
 
             case "ADC":
-                //  if (arguments[1].equals("M")) {
                 if (!flagC) {
-                    //addRegister(regA, getRegisterPairAddressValue(regH));
                     addRegister(regA, getRegister(arguments[1]));
                 } else {
-                    // addRegister(regA, getRegisterPairAddressValue(regH));
                     addRegister(regA, getRegister(arguments[1]));
                     incRegister(regA);
                     flagC = false;
                 }
-                // }
                 counter++;
                 break;
 
@@ -174,11 +116,6 @@ public class Assembler {
                 break;
 
             case "MOV"://Reg -> Reg
-            /*    if (arguments[2].equals("M")) {
-                    regA.setValue(getRegisterPairAddressValue(regH));
-                } else {
-                    getRegister(arguments[1]).setValue(getRegister(arguments[2]).getValue());
-                }*/
                 getRegister(arguments[1]).setValue(getRegister(arguments[2]).getValue());
                 counter++;
                 break;
@@ -266,15 +203,12 @@ public class Assembler {
                 break;
 
             case "STAX"://RegA -> RP -> a16
-                //addresses[Integer.parseInt(getRegisterPairValue(getRegister(arguments[1])))] =
-                //        regA.getValue();
                 setAddress(getRegister(arguments[1]), regA);
                 regA.setValue("00");
                 counter++;
                 break;
 
             case "SET":
-                //addresses[Integer.parseInt(arguments[1])] = arguments[2];
                 setAddress(Integer.parseInt(arguments[1]), arguments[2]);
                 counter++;
                 break;
@@ -292,94 +226,9 @@ public class Assembler {
             default:
                 break;
         }
-        //goto
+
         if (arguments[0].contains(":")) {
             counter++;
         }
-    }
-
-    private void runProgram() throws IOException {
-        loadToAddresses();
-        while (!addresses[counter].equals("END")) {
-            System.out.println("Counter : " + counter + "     " + program[counter]);
-            runOperations(addresses[counter]);
-            displayRegisters();
-            displayFlags();
-            displayRegistersStack();
-            System.out.println();
-        }
-        counter++;
-        while (addresses[counter].contains("GET")) {
-            System.out.println("Counter : " + counter);
-            runOperations(addresses[counter]);
-            System.out.println();
-        }
-    }
-
-    private void displayRegisters() {
-        String registers = "";
-        registers += "A : ";
-        registers += regA.getValue();
-        registers += " | ";
-        registers += "B : ";
-        registers += regB.getValue();
-        registers += " | ";
-        registers += "C : ";
-        registers += regC.getValue();
-        registers += " | ";
-        registers += "D : ";
-        registers += regD.getValue();
-        registers += " | ";
-        registers += "E : ";
-        registers += regE.getValue();
-        registers += " | ";
-        registers += "H : ";
-        registers += regH.getValue();
-        registers += " | ";
-        registers += "L : ";
-        registers += regL.getValue();
-        registers += " | ";
-
-        System.out.println(registers);
-    }
-
-    private void displayRegistersStack() {
-        String registers = "";
-        registers += "A : ";
-        registers += "--";
-        registers += " | ";
-        registers += "B : ";
-        registers += regBStack.getValue();
-        registers += " | ";
-        registers += "C : ";
-        registers += regCStack.getValue();
-        registers += " | ";
-        registers += "D : ";
-        registers += regDStack.getValue();
-        registers += " | ";
-        registers += "E : ";
-        registers += regEStack.getValue();
-        registers += " | ";
-        registers += "H : ";
-        registers += regHStack.getValue();
-        registers += " | ";
-        registers += "L : ";
-        registers += regLStack.getValue();
-        registers += " | ";
-
-        System.out.println(registers);
-    }
-
-    private void displayFlags() {
-        String flags = "";
-        flags += "C : " + flagC + " | ";
-        flags += "Z : " + flagZ + " | ";
-        flags += "P : " + flagP + " | ";
-
-        System.out.println(flags);
-    }
-
-    public static void main(String[] args) throws IOException {
-        new Assembler().runProgram();
     }
 }

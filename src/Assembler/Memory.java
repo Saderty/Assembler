@@ -1,36 +1,36 @@
-package Memory;
+package Assembler;
 
 public class Memory {
-    public static final int bit = 16;
+    private static final int bit = 16;
     private static final String doubleByte = "100";
     private static final String sDoubleByte = "-100";
 
-    public static String[] addresses = new String[9000];
+    static String[] addresses = new String[9000];
 
-    public static boolean flagS;
-    public static boolean flagZ;
-    public static boolean flagP;
-    public static boolean flagC;
+    static boolean flagS;
+    static boolean flagZ;
+    static boolean flagP;
+    static boolean flagC;
 
 
-    public static Register regA = new Register();
-    public static Register regB = new Register();
-    public static Register regC = new Register();
-    public static Register regD = new Register();
-    public static Register regE = new Register();
-    public static Register regH = new Register();
-    public static Register regL = new Register();
+    static Register regA = new Register();
+    static Register regB = new Register();
+    static Register regC = new Register();
+    static Register regD = new Register();
+    static Register regE = new Register();
+    static Register regH = new Register();
+    static Register regL = new Register();
 
-    public static Register regM = new Register();
+    static Register regM = new Register();
 
-    public static Register regBStack = new Register();
-    public static Register regCStack = new Register();
-    public static Register regDStack = new Register();
-    public static Register regEStack = new Register();
-    public static Register regHStack = new Register();
-    public static Register regLStack = new Register();
+    static Register regBStack = new Register();
+    static Register regCStack = new Register();
+    static Register regDStack = new Register();
+    static Register regEStack = new Register();
+    static Register regHStack = new Register();
+    static Register regLStack = new Register();
 
-    public static Register[][] regPair = {
+    static Register[][] regPair = {
             {regB, regC},
             {regD, regE},
             {regH, regL}};
@@ -40,14 +40,14 @@ public class Memory {
             {regDStack, regEStack},
             {regHStack, regLStack}};
 
-    public static class Register {
+    static class Register {
         private String value;
 
         Register() {
             value = "00";
         }
 
-        public void setValue(String value) {
+        void setValue(String value) {
             if (value.toUpperCase().equals("M")) {
                 this.value = getRegister(value).getValue();
             } else {
@@ -55,12 +55,12 @@ public class Memory {
             }
         }
 
-        public String getValue() {
+        String getValue() {
             return value;
         }
     }
 
-    public static Register getRegister(String a) {
+    static Register getRegister(String a) {
         switch (a.toUpperCase()) {
             case "A":
                 return regA;
@@ -100,23 +100,28 @@ public class Memory {
         return s;
     }
 
-    public static void addRegister(Register reg0, Register reg1) {
+    static void addRegister(Register reg0, Register reg1) {
         addRegister(reg0, reg1.getValue());
     }
 
-    public static void subRegister(Register reg0, Register reg1) {
+    static void subRegister(Register reg0, Register reg1) {
         addRegister(reg0, "-" + reg1.getValue());
     }
 
-    public static void incRegister(Register register) {
+    static void incRegister(Register register) {
         addRegister(register, "1");
     }
 
-    public static void decRegister(Register register) {
+    static void decRegister(Register register) {
         addRegister(register, "-1");
     }
 
-    public static void addRegister(Register reg0, String reg1) {
+    static void addRegister(Register reg0, String reg1) {
+        flagS = false;
+        flagP = false;
+        flagC = false;
+        flagZ = false;
+
         String a = reg0.getValue();
         String c = addHex(a, reg1);
         c = normalise(c);
@@ -124,11 +129,17 @@ public class Memory {
             if (Integer.parseInt(c, bit) % 2 == 0) {
                 flagP = true;
             }
+            if (Integer.parseInt(c, bit) < 0) {
+                flagS = true;
+            }
+            if (Integer.parseInt(c, bit) == 0) {
+                flagZ = true;
+            }
         }
         reg0.setValue(c);
     }
 
-    public static String getRegisterPairValue(Register register) {
+    static String getRegisterPairValue(Register register) {
         for (Register[] aRegPair : regPair) {
             if (register == aRegPair[0]) {
                 return aRegPair[0].getValue() + aRegPair[1].getValue();
@@ -150,7 +161,7 @@ public class Memory {
         }
     }
 
-    public static void incRegisterPair(Register register) {
+    static void incRegisterPair(Register register) {
         for (Register[] aRegPair : regPair) {
             if (register == aRegPair[0]) {
                 String tmp = getRegisterPairValue(aRegPair[0]);
@@ -165,11 +176,11 @@ public class Memory {
         }
     }
 
-    public static String getRegisterPairAddressValue(Register register) {
+    static String getRegisterPairAddressValue(Register register) {
         return addresses[Integer.parseInt(getRegisterPairValue(register))];
     }
 
-    public static void andShift(String s) {
+    static void andShift(String s) {
         int a = Integer.parseInt(regA.getValue(), bit);
         int b;
 
@@ -183,7 +194,7 @@ public class Memory {
         regA.setValue(c);
     }
 
-    public static void orShift(String s) {
+    static void orShift(String s) {
         int a = Integer.parseInt(regA.getValue(), bit);
         int b;
 
@@ -197,7 +208,7 @@ public class Memory {
         regA.setValue(c);
     }
 
-    public static void xraShift(String s) {
+    static void xraShift(String s) {
         int a = Integer.parseInt(regA.getValue(), bit);
         int b;
 
@@ -211,7 +222,7 @@ public class Memory {
         regA.setValue(c);
     }
 
-    public static void cycleShift(boolean s) {
+    static void cycleShift(boolean s) {
         int a = Integer.parseInt(regA.getValue(), 16);
         if (s) {
             a >>= 1;
@@ -228,15 +239,15 @@ public class Memory {
         regA.setValue(aa);
     }
 
-    public static void setAddress(Register reg0, Register reg1) {
+    static void setAddress(Register reg0, Register reg1) {
         setAddress(Integer.parseInt(getRegisterPairValue(reg0)), reg1.getValue());
     }
 
-    public static void setAddress(int address, String s) {
+    static void setAddress(int address, String s) {
         addresses[address] = s;
     }
 
-    public static void pushStack(Register register) {
+    static void pushStack(Register register) {
         for (int i = 0; i < regPair.length; i++) {
             if (regPair[i][0] == register) {
                 regPairStack[i][0].setValue(regPair[i][0].getValue());
@@ -245,7 +256,7 @@ public class Memory {
         }
     }
 
-    public static void popStack(Register register) {
+    static void popStack(Register register) {
         for (int i = 0; i < regPair.length; i++) {
             if (regPair[i][0] == register) {
                 regPair[i][0].setValue(regPairStack[i][0].getValue());
