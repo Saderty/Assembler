@@ -17,7 +17,7 @@ public class Assembler {
     final private String commentary = "#";
     static int counter = 0;
     static int counterStack;
-    static int SC=5000;
+    static int SC = 5000;
     static String[] labels;
 
     private String[] readProgram() throws IOException {

@@ -7,21 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d0b742b-db81-4473-9bac-8de7a7d6078c" name="Default" comment="Added Memory class">
-      <change afterPath="$PROJECT_DIR$/Program3.5.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Program3.6.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Assembler/Registers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Assembler/GUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Program2.4.1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program2.4.1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Program3.3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Program3.3.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assembler/Assembler/Assembler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assembler/Assembler/Assembler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assembler/Assembler/Memory$Register.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assembler/Assembler/Memory.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assembler/Assembler/Memory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assembler/Assembler/Operations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assembler/Assembler/Operations.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assembler/Assembler/RegisterPair.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Assembler/Assembler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Assembler/Assembler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assembler/Memory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Assembler/Memory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assembler/Operations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Assembler/Operations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assembler/RegisterPair.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,13 +21,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Assembler.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Assembler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Assembler/Assembler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="187">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GUI.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Assembler/GUI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#645#646#0" expanded="true" />
+                <element signature="e#688#689#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -167,10 +169,11 @@
         <option value="$PROJECT_DIR$/Program3.5.txt" />
         <option value="$PROJECT_DIR$/src/Assembler/RegisterPair.java" />
         <option value="$PROJECT_DIR$/src/Assembler/Registers.java" />
-        <option value="$PROJECT_DIR$/src/Assembler/Assembler.java" />
         <option value="$PROJECT_DIR$/src/Assembler/Memory.java" />
         <option value="$PROJECT_DIR$/src/Assembler/Operations.java" />
         <option value="$PROJECT_DIR$/Program3.6.txt" />
+        <option value="$PROJECT_DIR$/src/Assembler/Assembler.java" />
+        <option value="$PROJECT_DIR$/src/Assembler/GUI.java" />
       </list>
     </option>
   </component>
@@ -250,7 +253,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Assembler">
+  <component name="RunManager" selected="Application.GUI">
     <configuration name="Assembler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Assembler.Assembler" />
       <module name="Assembler" />
@@ -263,6 +266,17 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="Support.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
+    <configuration name="GUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Assembler.GUI" />
+      <module name="Assembler" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Assembler.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -311,9 +325,11 @@
     <list>
       <item itemvalue="Application.FileOperations" />
       <item itemvalue="Application.Assembler" />
+      <item itemvalue="Application.GUI" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.GUI" />
         <item itemvalue="Application.Assembler" />
         <item itemvalue="Application.FileOperations" />
       </list>
@@ -346,7 +362,7 @@
       <workItem from="1540220778352" duration="18005000" />
       <workItem from="1540294943326" duration="1019000" />
       <workItem from="1540326877457" duration="550000" />
-      <workItem from="1540381627204" duration="18393000" />
+      <workItem from="1540381627204" duration="20781000" />
     </task>
     <task id="LOCAL-00001" summary="Added Support&#10;Added program reader">
       <created>1539252801211</created>
@@ -373,7 +389,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="102938000" />
+    <option name="totallyTimeSpent" value="105326000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="684" y="0" width="1243" height="1047" extended-state="0" />
@@ -389,7 +405,7 @@
       <window_info anchor="right" id="Maven Projects" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.40236053" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.40236053" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
@@ -426,13 +442,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Added Memory class" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Assembler/Memory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2040">
-          <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Support/FileOperations.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -796,10 +805,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Assembler/Assembler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="187">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Assembler/GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#645#646#0" expanded="true" />
+            <element signature="e#688#689#0" expanded="true" />
           </folding>
         </state>
       </provider>
