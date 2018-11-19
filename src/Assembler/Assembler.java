@@ -5,13 +5,15 @@ import Support.ArrayOperations;
 import java.io.File;
 import java.io.IOException;
 
+import static Assembler.GUI.getText;
+import static Assembler.GUI.outputArea;
 import static Assembler.Memory.*;
 import static Support.ArrayOperations.TrimArray;
 import static Support.FileOperations.ReadFile;
 
 //TODO : INX command, register dec to hex
 public class Assembler {
-    private File programFile = new File("Program3.6.txt");
+    private File programFile = new File("Program.txt");
     private String[] program;
 
     final private String commentary = "#";
@@ -31,12 +33,15 @@ public class Assembler {
         return TrimArray(program, ArrayOperations.SPACE);
     }
 
-    private void loadToAddresses() throws IOException {
+    private void loadToAddresses(boolean gui) throws IOException {
         for (int i = 0; i < addresses.length; i++) {
             addresses[i] = "00";
         }
-
-        program = readProgram();
+        if (!gui) {
+            program = readProgram();
+        } else {
+            program = getText();
+        }
 
         for (int i = 0; i < program.length; i++) {
             addresses[i] = program[i].toUpperCase();
@@ -50,10 +55,12 @@ public class Assembler {
         }
     }
 
-    private void runProgram() throws IOException {
-        loadToAddresses();
+    public void runProgram() throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        loadToAddresses(true);
         while (!addresses[counter].equals("END")) {
             System.out.println("Counter : " + counter + "     " + program[counter]);
+            stringBuilder.append("Counter : ").append(counter).append("     ").append(program[counter]).append("\n");
             Operations.runOperations(addresses[counter]);
             displayRegisters();
             displayFlags();
@@ -62,9 +69,12 @@ public class Assembler {
         counter++;
         while (addresses[counter].contains("GET")) {
             System.out.println("Counter : " + counter);
+            stringBuilder.append("Counter : ").append(counter).append("\n");
             Operations.runOperations(addresses[counter]);
             System.out.println();
         }
+
+        outputArea.setText(stringBuilder.toString());
     }
 
     private void displayRegisters() {
