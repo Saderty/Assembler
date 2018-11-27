@@ -14,7 +14,7 @@ import static Support.FileOperations.ReadFile;
 //TODO : INX command, register dec to hex
 public class Assembler {
     private File programFile = new File("Program.txt");
-    private String[] program;
+    static String[] program;
 
     static int counter = 0;
     static int counterStack;
@@ -38,16 +38,6 @@ public class Assembler {
                 labels[i] = program[i].toUpperCase().replaceAll(":", "") + " " + i;
             }
         }
-
-        while (!addresses[counter].equals("END")) {
-            Operations.runOperations(addresses[counter]);
-        }
-        counter++;
-        while (addresses[counter].contains("GET")) {
-            Operations.runOperations(addresses[counter]);
-        }
-
-        System.out.println(program);
     }
 
     private String[] readProgram() throws IOException {
@@ -106,7 +96,7 @@ public class Assembler {
         outputArea.setText(stringBuilder.toString());
     }
 
-    String getDisplayRegisters() {
+    static String getDisplayRegisters() {
         String registers = "";
         registers += "A : ";
         registers += regA.getValue();
@@ -133,7 +123,7 @@ public class Assembler {
         return registers;
     }
 
-    private void displayRegisters() {
+    static void displayRegisters() {
         System.out.println(getDisplayRegisters());
     }
 

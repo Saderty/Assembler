@@ -4,16 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import static Assembler.Assembler.SC;
-import static Assembler.Assembler.counter;
+import static Assembler.Assembler.*;
 import static Assembler.Elements.*;
 import static Assembler.Memory.*;
 import static Assembler.Operations.runOperations;
 
 public class GUI {
-    private Elements elements;
-
     private static JTextArea inputArea = new JTextArea();
     static JTextArea outputArea = new JTextArea();
 
@@ -45,12 +44,9 @@ public class GUI {
         JFrame frame = new JFrame("Emulator");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        elements = new Elements(frame);
+        new Elements(frame);
 
         setElements();
-
-        frame.setSize(800, 800);
-        frame.setVisible(true);
 
         textField.addKeyListener(new KeyAdapter() {
             @Override
@@ -67,26 +63,33 @@ public class GUI {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     new Assembler().gui();
+                    counter = 0;
                 }
             }
         });
 
-        stepButton.addKeyListener(new KeyAdapter() {
+        stepButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                runOperations(String.valueOf(counter+1));
+            public void mouseReleased(MouseEvent e) {
+                System.out.println(addresses[counter]);
+                System.out.println(counter);
+                runOperations(addresses[counter]);
+                displayRegisters();
+                System.out.println();
                 changeFlags();
                 changeRegisters();
             }
         });
 
-        runButton.addKeyListener(new KeyAdapter() {
+        runButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
+            public void mouseReleased(MouseEvent e) {
 
             }
         });
 
+        frame.setSize(1000, 1000);
+        frame.setVisible(true);
     }
 
     private void setElements() {
@@ -95,8 +98,10 @@ public class GUI {
         int s = 40;
         int a = 20;
 
-        createTextArea(inputArea, 20, 20, 50, 200);
-        createTextArea(outputArea, 100, 20, 50, 200);
+        createTextArea(inputArea, 20, 20, 200, 800);
+        createTextArea(outputArea, 240, 20, 300, 800);
+
+        x += 300;
 
         createLabel("S", x, y);
         createLabel(flagSLabel, x, y + s + a);
@@ -147,15 +152,19 @@ public class GUI {
 
     private void changeFlags() {
         if (flagS) {
+            flagSLabel.setOpaque(true);
             flagSLabel.setBackground(Color.RED);
         }
         if (flagZ) {
+            flagZLabel.setOpaque(true);
             flagZLabel.setBackground(Color.RED);
         }
         if (flagP) {
+            flagPLabel.setOpaque(true);
             flagPLabel.setBackground(Color.RED);
         }
         if (flagC) {
+            flagCLabel.setOpaque(true);
             flagCLabel.setBackground(Color.RED);
         }
     }
@@ -169,7 +178,7 @@ public class GUI {
         registerELabel.setText(regE.getValue());
         registerHLabel.setText(regH.getValue());
         registerLLabel.setText(regL.getValue());
-        registerMLabel.setText(regM.getValue());
+        registerMLabel.setText(addresses[Integer.parseInt(regHL.getValue())]);
 
         registerPairPC1Label.setText(String.valueOf(counter / 100));
         registerPairPC2Label.setText(String.valueOf(counter % 100));
