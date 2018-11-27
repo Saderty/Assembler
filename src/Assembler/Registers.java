@@ -14,7 +14,6 @@ class Registers {
 
         void setValue(String value) {
             if (value.toUpperCase().equals("M")) {
-                //    this.value = getRegister(value).getValue();
                 this.value = getRegisterPairAddressValue(regHL);
             } else {
                 this.value = value;

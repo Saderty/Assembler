@@ -30,12 +30,12 @@ class Operations {
 
             case "PUSH":
                 pushStack(getRegisterPair(arguments[1]));
-                counter++;
+       //         counter++;
                 break;
 
             case "POP":
                 popStack(getRegisterPair(arguments[1]));
-                counter++;
+       //         counter++;
                 break;
 
             case "XCHG":
@@ -43,67 +43,67 @@ class Operations {
                 String hl = regHL.getValue();
                 regHL.setValue(de);
                 regDE.setValue(hl);
-                counter++;
+        //        counter++;
                 break;
 
             case "CMA":
                 regA.setValue(String.valueOf(~Integer.parseInt(regA.getValue())));
-                counter++;
+        //        counter++;
                 break;
 
             case "INR":
                 incRegister(getRegister(arguments[1]));
-                counter++;
+       //         counter++;
                 break;
 
             case "RRC":
                 cycleShift(true);
-                counter++;
+         //       counter++;
                 break;
 
             case "RAR":
                 cycleShift(true);
-                counter++;
+        //        counter++;
                 break;
 
             case "RAL":
                 cycleShift(false);
-                counter++;
+       //         counter++;
                 break;
 
             case "ANA":
                 andShift(arguments[1]);
-                counter++;
+       //         counter++;
                 break;
 
             case "ANI":
                 andShift(arguments[1]);
-                counter++;
+      //          counter++;
                 break;
 
             case "ADI":
                 addRegister(regA, arguments[1]);
-                counter++;
+        //        counter++;
                 break;
 
             case "ORA":
                 orShift(arguments[1]);
-                counter++;
+       //         counter++;
                 break;
 
             case "XRA":
                 xraShift(arguments[1]);
-                counter++;
+        //        counter++;
                 break;
 
             case "MVI":
                 getRegister(arguments[1]).setValue(arguments[2]);
-                counter++;
+       //         counter++;
                 break;
 
             case "ADD":
                 addRegister(regA, getRegister(arguments[1]));
-                counter++;
+         //       counter++;
                 break;
 
             case "ADC":
@@ -114,24 +114,24 @@ class Operations {
                     incRegister(regA);
                     flagC = false;
                 }
-                counter++;
+        //        counter++;
                 break;
 
             case "CPI":
                 int a2 = Integer.parseInt(regA.getValue(), 16);
                 int b2 = Integer.parseInt(arguments[1], 16);
                 flagC = a2 < b2;
-                counter++;
+          //      counter++;
                 break;
 
             case "CMC":
                 flagC = !flagC;
-                counter++;
+          //      counter++;
                 break;
 
             case "SUB":
                 subRegister(regA, getRegister(arguments[1]));
-                counter++;
+           //     counter++;
                 break;
 
             case "DCR":
@@ -140,22 +140,22 @@ class Operations {
                 } else {
                     decRegister(getRegister(arguments[1]));
                 }
-                counter++;
+            //    counter++;
                 break;
 
             case "MOV"://Reg -> Reg
                 getRegister(arguments[1]).setValue(getRegister(arguments[2]).getValue());
-                counter++;
+          //      counter++;
                 break;
 
             case "LDA"://d16 -> a16 -> RegA
                 regA.setValue(addresses[Integer.parseInt(arguments[1])]);
-                counter++;
+          //      counter++;
                 break;
 
             case "LDAX"://RP -> a16 -> RegA
                 regA.setValue(getRegisterPairAddressValue(getRegisterPair(arguments[1])));
-                counter++;
+           //     counter++;
                 break;
 
             case "LXI"://d16 -> RP
@@ -166,12 +166,12 @@ class Operations {
                     }
                 }*/
                 getRegisterPair(arguments[1]).setValue(arguments[2]);
-                counter++;
+          //      counter++;
                 break;
 
             case "INX":
                 incRegisterPair(getRegisterPair(arguments[1]));
-                counter++;
+          //      counter++;
                 break;
 
             case "JMP":
@@ -183,7 +183,7 @@ class Operations {
                     toGoto(arguments[1]);
                     flagC = false;
                 } else {
-                    counter++;
+            //        counter++;
                 }
                 break;
 
@@ -192,7 +192,7 @@ class Operations {
                     toGoto(arguments[1]);
                 } else {
                     flagC = false;
-                    counter++;
+            //        counter++;
                 }
                 break;
 
@@ -201,7 +201,7 @@ class Operations {
                     toGoto(arguments[1]);
                     flagZ = false;
                 } else {
-                    counter++;
+             //       counter++;
                 }
                 break;
 
@@ -210,7 +210,7 @@ class Operations {
                     toGoto(arguments[1]);
                 } else {
                     flagZ = false;
-                    counter++;
+             //       counter++;
                 }
                 break;
 
@@ -219,7 +219,7 @@ class Operations {
                     toGoto(arguments[1]);
                     flagP = false;
                 } else {
-                    counter++;
+             //       counter++;
                 }
                 break;
 
@@ -227,19 +227,19 @@ class Operations {
                 if (!flagP) {
                     toGoto(arguments[1]);
                 } else {
-                    counter++;
+           //         counter++;
                 }
                 break;
 
             case "STAX"://RegA -> RP -> a16
                 setAddress(getRegisterPair(arguments[1]), regA);
                 regA.setValue("00");
-                counter++;
+            //    counter++;
                 break;
 
             case "SET":
                 setAddress(Integer.parseInt(arguments[1]), arguments[2]);
-                counter++;
+              //  counter++;
                 break;
 
             case "GET":
@@ -249,12 +249,13 @@ class Operations {
                 if (arguments[1].length() == 4) {
                     System.out.println("Address " + arguments[1] + " = " + addresses[Integer.parseInt(arguments[1])]);
                 }
-                counter++;
+               // counter++;
                 break;
 
             default:
                 break;
         }
+        counter++;
 
         if (arguments[0].contains(":")) {
             counter++;

@@ -16,16 +16,45 @@ public class Assembler {
     private File programFile = new File("Program.txt");
     private String[] program;
 
-    final private String commentary = "#";
     static int counter = 0;
     static int counterStack;
     static int SC = 5000;
     static String[] labels;
 
+    void gui() {
+        program = getText();
+
+        for (int i = 0; i < addresses.length; i++) {
+            addresses[i] = "00";
+        }
+
+        for (int i = 0; i < program.length; i++) {
+            addresses[i] = program[i].toUpperCase();
+        }
+
+        labels = new String[program.length];
+        for (int i = 0; i < program.length; i++) {
+            if (program[i].contains(":")) {
+                labels[i] = program[i].toUpperCase().replaceAll(":", "") + " " + i;
+            }
+        }
+
+        while (!addresses[counter].equals("END")) {
+            Operations.runOperations(addresses[counter]);
+        }
+        counter++;
+        while (addresses[counter].contains("GET")) {
+            Operations.runOperations(addresses[counter]);
+        }
+
+        System.out.println(program);
+    }
+
     private String[] readProgram() throws IOException {
         String[] program = ReadFile(programFile);
 
         for (int i = 0; i < program.length; i++) {
+            String commentary = "#";
             if (program[i].split("", 2)[0].equals(commentary)) {
                 program[i] = null;
             }
@@ -33,15 +62,12 @@ public class Assembler {
         return TrimArray(program, ArrayOperations.SPACE);
     }
 
-    private void loadToAddresses(boolean gui) throws IOException {
+    private void loadToAddresses() throws IOException {
         for (int i = 0; i < addresses.length; i++) {
             addresses[i] = "00";
         }
-        if (!gui) {
-            program = readProgram();
-        } else {
-            program = getText();
-        }
+
+        program = readProgram();
 
         for (int i = 0; i < program.length; i++) {
             addresses[i] = program[i].toUpperCase();
@@ -55,15 +81,18 @@ public class Assembler {
         }
     }
 
-    public void runProgram() throws IOException {
+    void runProgram() throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
-        loadToAddresses(true);
+        loadToAddresses();
+
         while (!addresses[counter].equals("END")) {
             System.out.println("Counter : " + counter + "     " + program[counter]);
             stringBuilder.append("Counter : ").append(counter).append("     ").append(program[counter]).append("\n");
             Operations.runOperations(addresses[counter]);
             displayRegisters();
+            stringBuilder.append(getDisplayRegisters()).append("\n");
             displayFlags();
+            stringBuilder.append(getDisplayFlags()).append("\n");
             System.out.println();
         }
         counter++;
@@ -77,7 +106,7 @@ public class Assembler {
         outputArea.setText(stringBuilder.toString());
     }
 
-    private void displayRegisters() {
+    String getDisplayRegisters() {
         String registers = "";
         registers += "A : ";
         registers += regA.getValue();
@@ -101,17 +130,25 @@ public class Assembler {
         registers += regL.getValue();
         registers += " | ";
 
-        System.out.println(registers);
+        return registers;
     }
 
-    private void displayFlags() {
+    private void displayRegisters() {
+        System.out.println(getDisplayRegisters());
+    }
+
+    String getDisplayFlags() {
         String flags = "";
         flags += "C : " + flagC + " | ";
         flags += "Z : " + flagZ + " | ";
         flags += "P : " + flagP + " | ";
         flags += "S : " + flagS + " | ";
 
-        System.out.println(flags);
+        return flags;
+    }
+
+    private void displayFlags() {
+        System.out.println(getDisplayFlags());
     }
 
     public static void main(String[] args) throws IOException {
