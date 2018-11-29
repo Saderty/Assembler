@@ -1,14 +1,14 @@
 package Assembler;
 
-import static Assembler.Assembler.SC;
-import static Assembler.Registers.*;
+import static Assembler.Registers.Register;
+import static Assembler.Registers.RegisterPair;
 
 class Memory {
     private static final int bit = 16;
     private static final String doubleByte = "100";
     private static final String sDoubleByte = "-100";
 
-    static String[] addresses = new String[9000];
+    static String[] addresses = new String[20000];
 
     static boolean flagS;
     static boolean flagZ;
@@ -26,10 +26,18 @@ class Memory {
     static Register regM = new Register();
     static Register regF = new Register();
 
+    static Register regPC0 = new Register();
+    static Register regPC1 = new Register();
+    static Register regSP0 = new Register("10");
+    static Register regSP1 = new Register();
+
     static RegisterPair regPSW = new RegisterPair(regA);
     static RegisterPair regBC = new RegisterPair(regB);
     static RegisterPair regDE = new RegisterPair(regD);
     static RegisterPair regHL = new RegisterPair(regH);
+
+    static RegisterPair regPC = new RegisterPair(regPC0);
+    static RegisterPair regSP = new RegisterPair(regSP0);
 
     static Register getRegister(String s) {
         switch (s.toUpperCase()) {
@@ -49,7 +57,7 @@ class Memory {
                 return regL;
 
             case "M":
-                regM.setValue(getRegisterPairAddressValue(regHL));
+                regM.setValue(getMemory(regHL));
                 return regM;
             case "F":
                 return regF;
@@ -67,20 +75,46 @@ class Memory {
                 return regDE;
             case "H":
                 return regHL;
+            case "PC":
+                return regPC;
+            case "SP":
+                return regSP;
         }
         return null;
     }
 
-    private static String addHex(String arg0, String arg1) {
+    static String addHex(String arg0, String arg1) {
         return Integer.toHexString(Integer.parseInt(arg0, bit) + Integer.parseInt(arg1, bit));
     }
 
+    static String toString(int dec) {
+        return decToHex(dec);
+    }
+
+    private static String decToHex(int dec) {
+        return Integer.toHexString(dec);
+    }
+
+    static int toInt(String hex) {
+        return hexToDec(hex);
+    }
+
+    private static int hexToDec(String hex) {
+        return Integer.parseInt(hex, bit);
+    }
+
     private static String normalise(String s) {
-        if (s.length() > 2) {
-            flagC = true;
-            s = addHex(s, sDoubleByte);
+        return normalise(s, 2);
+    }
+
+    static String normalise(String s, int bits) {
+        if (s.length() > bits) {
+            if (bits == 2) {
+                flagC = true;
+                s = addHex(s, sDoubleByte);
+            }
         } else {
-            while (s.length() < 2) {
+            while (s.length() < bits) {
                 s = "0" + s;
             }
         }
@@ -103,6 +137,7 @@ class Memory {
         addRegister(register, "-1");
     }
 
+    //АЛУ?
     static void addRegister(Register reg0, String reg1) {
         flagS = false;
         flagP = false;
@@ -113,13 +148,13 @@ class Memory {
         String c = addHex(a, reg1);
         c = normalise(c);
         if (reg0 == regA) {
-            if (Integer.parseInt(c, bit) % 2 == 0) {
+            if (hexToDec(c) % 2 == 0) {
                 flagP = true;
             }
-            if (Integer.parseInt(c, bit) < 0) {
+            if (hexToDec(c) < 0) {
                 flagS = true;
             }
-            if (Integer.parseInt(c, bit) == 0) {
+            if (hexToDec(c) == 0) {
                 flagZ = true;
             }
         }
@@ -129,14 +164,8 @@ class Memory {
     static void incRegisterPair(RegisterPair registerPair) {
         String tmp = registerPair.getValue();
         tmp = addHex(tmp, "1");
-        while (tmp.length() < 4) {
-            tmp = "0" + tmp;
-        }
+        tmp = normalise(tmp, 4);
         registerPair.setValue(tmp);
-    }
-
-    static String getRegisterPairAddressValue(RegisterPair registerPair) {
-        return addresses[Integer.parseInt(registerPair.getValue())];
     }
 
     static void andShift(Register register) {
@@ -144,15 +173,15 @@ class Memory {
     }
 
     static void andShift(String s) {
-        int a = Integer.parseInt(regA.getValue(), bit);
+        int a = toInt(regA.getValue());
         int b;
 
         if (s.toUpperCase().equals("M")) {
-            b = Integer.parseInt(getRegisterPairAddressValue(regHL));
+            b = toInt(getMemory(regHL));
         } else {
-            b = Integer.parseInt(s, bit);
+            b = toInt(s);
         }
-        String c = Integer.toHexString(a & b);
+        String c = toString(a & b);
 
         regA.setValue(c);
     }
@@ -162,7 +191,7 @@ class Memory {
         int b;
 
         if (s.toUpperCase().equals("M")) {
-            b = Integer.parseInt(getRegisterPairAddressValue(regHL));
+            b = Integer.parseInt(getMemory(regHL));
         } else {
             b = Integer.parseInt(getRegister(s).getValue(), bit);
         }
@@ -176,7 +205,7 @@ class Memory {
         int b;
 
         if (s.toUpperCase().equals("M")) {
-            b = Integer.parseInt(getRegisterPairAddressValue(regHL));
+            b = Integer.parseInt(getMemory(regHL));
         } else {
             b = Integer.parseInt(getRegister(s).getValue(), bit);
         }
@@ -202,25 +231,41 @@ class Memory {
         regA.setValue(aa);
     }
 
-    static void setAddress(RegisterPair registerPair, Register reg1) {
-        setAddress(Integer.parseInt(registerPair.getValue()), reg1.getValue());
+    static void setMemory(RegisterPair registerPair, Register reg1) {
+        setMemory(registerPair.getValue(), reg1.getValue());
     }
 
-    static void setAddress(int address, String s) {
+    static void setMemory(String address, String value) {
+        setMemory(toInt(address), value);
+    }
+
+    static void setMemory(int address, String s) {
         addresses[address] = s;
     }
 
+    static String getMemory(String address) {
+        return getMemory(toInt(address));
+    }
+
+    static String getMemory(int address) {
+        return addresses[address];
+    }
+
+    static String getMemory(RegisterPair registerPair) {
+        return getMemory(registerPair.getValue());
+    }
+
     static void pushStack(RegisterPair registerPair) {
-        SC--;
-        addresses[SC] = registerPair.getLowByte();
-        SC--;
-        addresses[SC] = registerPair.getHighByte();
+        regSP.dec();
+        setMemory(regSP, registerPair.getLowRegister());
+        regSP.dec();
+        setMemory(regSP, registerPair.getHighRegister());
     }
 
     static void popStack(RegisterPair registerPair) {
-        registerPair.setHighByte(addresses[SC]);
-        SC++;
-        registerPair.setLowByte(addresses[SC]);
-        SC++;
+        registerPair.setHighByte(getMemory(regSP));
+        regSP.inc();
+        registerPair.setLowByte(getMemory(regSP));
+        regSP.inc();
     }
 }

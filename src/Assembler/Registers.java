@@ -12,9 +12,13 @@ class Registers {
             value = "00";
         }
 
+        Register(String value) {
+            this.value = value;
+        }
+
         void setValue(String value) {
             if (value.toUpperCase().equals("M")) {
-                this.value = getRegisterPairAddressValue(regHL);
+                this.value = getMemory(regHL);
             } else {
                 this.value = value;
             }
@@ -26,75 +30,99 @@ class Registers {
     }
 
     static class RegisterPair {
-        final String REG_A = "regA";
-        final String REG_B = "regB";
-        final String REG_C = "regC";
-        final String REG_D = "regD";
-        final String REG_E = "regE";
-        final String REG_H = "regH";
-        final String REG_L = "regL";
+        final String REG_PSW = "PSW";
+        final String REG_BC = "BC";
+        final String REG_DE = "DE";
+        final String REG_HL = "HL";
+
+        final String REG_PC = "PC";
+        final String REG_SP = "SP";
 
         private String name;
 
         RegisterPair(Register reg0) {
             if (reg0 == regA) {
-                name = REG_A;
+                name = REG_PSW;
             }
             if (reg0 == regB) {
-                name = REG_B;
+                name = REG_BC;
             }
             if (reg0 == regD) {
-                name = REG_D;
+                name = REG_DE;
             }
             if (reg0 == regH) {
-                name = REG_H;
+                name = REG_HL;
+            }
+            if (reg0 == regPC0) {
+                name = REG_PC;
+            }
+            if (reg0 == regSP0) {
+                name = REG_SP;
             }
         }
 
         RegisterPair getRegister() {
-            if (name.equals(REG_A)) {
+            if (name.equals(REG_PSW)) {
                 return regPSW;
             }
-            if (name.equals(REG_B)) {
+            if (name.equals(REG_BC)) {
                 return regBC;
             }
-            if (name.equals(REG_D)) {
+            if (name.equals(REG_DE)) {
                 return regDE;
             }
-            if (name.equals(REG_H)) {
+            if (name.equals(REG_HL)) {
                 return regHL;
             }
+            if (name.equals(REG_PC)) {
+                return regPC;
+            }
+            if (name.equals(REG_SP)) {
+                return regSP;
+            }
             return null;
         }
 
-        Register getLowRegister(RegisterPair registerPair) {
-            if (name.equals(REG_A)) {
+        Register getLowRegister() {
+            if (name.equals(REG_PSW)) {
                 return regA;
             }
-            if (name.equals(REG_B)) {
+            if (name.equals(REG_BC)) {
                 return regB;
             }
-            if (name.equals(REG_D)) {
+            if (name.equals(REG_DE)) {
                 return regD;
             }
-            if (name.equals(REG_H)) {
+            if (name.equals(REG_HL)) {
                 return regH;
+            }
+            if (name.equals(REG_PC)) {
+                return regPC0;
+            }
+            if (name.equals(REG_SP)) {
+                return regSP0;
             }
             return null;
         }
 
-        Register getHighRegister(RegisterPair registerPair) {
-            if (name.equals(REG_A)) {
+        Register getHighRegister() {
+            if (name.equals(REG_PSW)) {
                 return regF;
             }
-            if (name.equals(REG_B)) {
+            if (name.equals(REG_BC)) {
                 return regC;
             }
-            if (name.equals(REG_D)) {
+            if (name.equals(REG_DE)) {
                 return regE;
             }
-            if (name.equals(REG_H)) {
+            if (name.equals(REG_HL)) {
                 return regL;
+            }
+            if (name.equals(REG_PC)) {
+                return regPC1;
+            }
+            if (name.equals(REG_SP)) {
+                return regSP1;
             }
             return null;
         }
@@ -109,19 +137,33 @@ class Registers {
         }
 
         void setLowByte(String value) {
-            getLowRegister(getRegister()).setValue(value);
+            getLowRegister().setValue(value);
         }
 
         String getLowByte() {
-            return getLowRegister(getRegister()).getValue();
+            return getLowRegister().getValue();
         }
 
         void setHighByte(String value) {
-            getHighRegister(getRegister()).setValue(value);
+            getHighRegister().setValue(value);
         }
 
         String getHighByte() {
-            return getHighRegister(getRegister()).getValue();
+            return getHighRegister().getValue();
+        }
+
+        void inc() {
+            String tmp = getRegister().getValue();
+            tmp = addHex(tmp, "1");
+            tmp = normalise(tmp, 4);
+            getRegister().setValue(tmp);
+        }
+
+        void dec() {
+            String tmp = getRegister().getValue();
+            tmp = addHex(tmp, "-1");
+            tmp = normalise(tmp, 4);
+            getRegister().setValue(tmp);
         }
     }
 }

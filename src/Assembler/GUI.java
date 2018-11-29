@@ -7,14 +7,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static Assembler.Assembler.*;
 import static Assembler.Elements.*;
 import static Assembler.Memory.*;
 import static Assembler.Operations.runOperations;
 
 public class GUI {
     private static JTextArea inputArea = new JTextArea();
-    static JTextArea outputArea = new JTextArea();
+    private static JTextArea outputArea = new JTextArea();
 
     private JTextField textField = new JTextField();
     private JTextField memoryField = new JTextField();
@@ -48,11 +47,15 @@ public class GUI {
 
         setElements();
 
+        JLabel label = new JLabel("Directed by Bulat Shagidullin #Saderty");
+        frame.getContentPane().add(label);
+        setElement(label, 0, 0);
+
         textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 try {
-                    memoryField.setText(Memory.addresses[Integer.parseInt(textField.getText())]);
+                    memoryField.setText(getMemory(textField.getText()));
                 } catch (Exception ignored) {
                 }
             }
@@ -63,7 +66,8 @@ public class GUI {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     new Assembler().gui();
-                    counter = 0;
+                    regPC.setValue("0000");
+                    regSP.setValue("1000");
                 }
             }
         });
@@ -71,20 +75,36 @@ public class GUI {
         stepButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                System.out.println(addresses[counter]);
-                System.out.println(counter);
-                runOperations(addresses[counter]);
-                displayRegisters();
+                System.out.println(getMemory(regPC));
+                System.out.println(regPC.getValue());
+                runOperations(getMemory(regPC));
                 System.out.println();
                 changeFlags();
                 changeRegisters();
+
+                try {
+                    memoryField.setText(getMemory(textField.getText()));
+                } catch (Exception ignored) {
+                }
             }
         });
 
         runButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
+                while (!getMemory(regPC).equals("END")) {
+                    System.out.println(getMemory(regPC));
+                    System.out.println(regPC.getValue());
+                    runOperations(getMemory(regPC));
+                    System.out.println();
+                    changeFlags();
+                    changeRegisters();
 
+                    try {
+                        memoryField.setText(getMemory(textField.getText()));
+                    } catch (Exception ignored) {
+                    }
+                }
             }
         });
 
@@ -178,12 +198,12 @@ public class GUI {
         registerELabel.setText(regE.getValue());
         registerHLabel.setText(regH.getValue());
         registerLLabel.setText(regL.getValue());
-        registerMLabel.setText(addresses[Integer.parseInt(regHL.getValue())]);
+        registerMLabel.setText(getMemory(regHL));
 
-        registerPairPC1Label.setText(String.valueOf(counter / 100));
-        registerPairPC2Label.setText(String.valueOf(counter % 100));
-        registerPairSP1Label.setText(String.valueOf(SC / 100));
-        registerPairSP2Label.setText(String.valueOf(SC % 100));
+        registerPairPC1Label.setText(regPC.getLowByte());
+        registerPairPC2Label.setText(regPC.getHighByte());
+        registerPairSP1Label.setText(regSP.getLowByte());
+        registerPairSP2Label.setText(regSP.getHighByte());
     }
 
     static String[] getText() {

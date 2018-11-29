@@ -67,7 +67,7 @@ class Elements {
         setElement(component, x, y);
     }
 
-    private static void setElement(JComponent component, int x, int y) {
+     static void setElement(JComponent component, int x, int y) {
         layout.putConstraint(SpringLayout.NORTH, component, y,
                 SpringLayout.NORTH, contentPane);
         layout.putConstraint(SpringLayout.WEST, component, x,
