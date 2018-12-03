@@ -2,6 +2,7 @@ package Assembler;
 
 import static Assembler.GUI.getText;
 import static Assembler.Memory.addresses;
+import static Assembler.Memory.normalise;
 
 public class Assembler {
     private static String[] program;
@@ -24,7 +25,8 @@ public class Assembler {
         labels = new String[program.length];
         for (int i = 0; i < program.length; i++) {
             if (program[i].contains(":")) {
-                labels[i] = program[i].toUpperCase().replaceAll(":", "") + " " + i;
+                //labels[i] = program[i].toUpperCase().replaceAll(":", "") + " " + i;
+                labels[i]=program[i].toUpperCase().replaceAll(":","")+ " "+normalise(Integer.toHexString(i),4);
             }
         }
     }

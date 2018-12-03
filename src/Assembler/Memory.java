@@ -129,6 +129,10 @@ class Memory {
         addRegister(reg0, "-" + reg1.getValue());
     }
 
+    static void subRegister(Register reg0, String reg1) {
+        addRegister(reg0, "-" + reg1);
+    }
+
     static void incRegister(Register register) {
         addRegister(register, "1");
     }
@@ -159,13 +163,6 @@ class Memory {
             }
         }
         reg0.setValue(c);
-    }
-
-    static void incRegisterPair(RegisterPair registerPair) {
-        String tmp = registerPair.getValue();
-        tmp = addHex(tmp, "1");
-        tmp = normalise(tmp, 4);
-        registerPair.setValue(tmp);
     }
 
     static void andShift(Register register) {
@@ -200,8 +197,12 @@ class Memory {
         regA.setValue(c);
     }
 
+    static void xraShift(Register register) {
+        xraShift(register.getValue());
+    }
+
     static void xraShift(String s) {
-        int a = Integer.parseInt(regA.getValue(), bit);
+        int a = toInt(regA.getValue());
         int b;
 
         if (s.toUpperCase().equals("M")) {

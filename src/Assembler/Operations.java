@@ -9,7 +9,7 @@ class Operations {
             if (aGoto != null) {
                 if (s.equals(aGoto.split(" ")[0])) {
                     regPC.setValue(aGoto.split(" ")[1]);
-                    incRegisterPair(regPC);
+                    regPC.inc();
                 }
             }
         }
@@ -24,21 +24,179 @@ class Operations {
                 toGoto(arguments[1]);
                 break;
 
+            case "CZ":
+                if (flagZ) {
+                    toGoto(arguments[1]);
+                    flagZ = false;
+                } else {
+                    regPC.inc();
+                }
+                break;
+
+            case "CNZ":
+                if (!flagZ) {
+                    toGoto(arguments[1]);
+                } else {
+                    flagZ = false;
+                    regPC.inc();
+                }
+                break;
+
+            case "CP":
+                if (!flagS) {
+                    toGoto(arguments[1]);
+                    flagS = false;
+                } else {
+                    regPC.inc();
+                }
+                break;
+
+            case "CM":
+                if (flagS) {
+                    toGoto(arguments[1]);
+                } else {
+                    flagS = false;
+                    regPC.inc();
+                }
+                break;
+
+            case "CC":
+                if (flagC) {
+                    toGoto(arguments[1]);
+                    flagC = false;
+                } else {
+                    regPC.inc();
+                }
+                break;
+
+            case "CNC":
+                if (!flagC) {
+                    toGoto(arguments[1]);
+                } else {
+                    flagC = false;
+                    regPC.inc();
+                }
+                break;
+
+            case "CPE":
+                if (flagP) {
+                    toGoto(arguments[1]);
+                    flagP = false;
+                } else {
+                    regPC.inc();
+                }
+                break;
+
+            case "CPO":
+                if (!flagP) {
+                    toGoto(arguments[1]);
+                } else {
+                    flagP = false;
+                    regPC.inc();
+                }
+                break;
+
             case "RET":
                 regPC.setValue(tmpCP);
-                incRegisterPair(regPC);
+                regPC.inc();
+                break;
+
+            case "RZ":
+                if (!flagZ) {
+                    regPC.setValue(tmpCP);
+                    regPC.inc();
+                } else {
+                    flagZ = false;
+                    regPC.inc();
+                }
+                break;
+
+            case "RNZ":
+                if (flagZ) {
+                    regPC.setValue(tmpCP);
+                    regPC.inc();
+                } else {
+                    regPC.inc();
+                }
+                break;
+
+            case "RP":
+                if (flagS) {
+                    regPC.setValue(tmpCP);
+                    regPC.inc();
+                } else {
+                    regPC.inc();
+                }
+                break;
+
+            case "RM":
+                if (!flagS) {
+                    regPC.setValue(tmpCP);
+                    regPC.inc();
+                } else {
+                    flagS = false;
+                    regPC.inc();
+                }
+                break;
+
+            case "RC":
+                if (flagC) {
+                    regPC.setValue(tmpCP);
+                    regPC.inc();
+                } else {
+                    regPC.inc();
+                }
+                break;
+
+            case "RNC":
+                if (!flagC) {
+                    regPC.setValue(tmpCP);
+                    regPC.inc();
+                } else {
+                    flagC = false;
+                    regPC.inc();
+                }
+                break;
+
+            case "RPE":
+                if (flagP) {
+                    regPC.setValue(tmpCP);
+                    regPC.inc();
+                } else {
+                    regPC.inc();
+                }
+                break;
+
+            case "RPO":
+                if (!flagP) {
+                    regPC.setValue(tmpCP);
+                    regPC.inc();
+                } else {
+                    flagP=false;
+                    regPC.inc();
+                }
+                break;
+
+            case "SPHL":
+                regSP.setValue(regHL.getValue());
+                break;
+
+            case "SHLD":
+                setMemory(arguments[1], regHL.getValue());
+                break;
+
+            case "STA":
+                setMemory(arguments[1], regA.getValue());
                 break;
 
             case "PUSH":
                 pushStack(getRegisterPair(arguments[1]));
-                //counter++;
                 regPC.inc();
                 break;
 
             case "POP":
                 popStack(getRegisterPair(arguments[1]));
                 regPC.inc();
-                // counter++;
                 break;
 
             case "XCHG":
@@ -46,43 +204,44 @@ class Operations {
                 String hl = regHL.getValue();
                 regHL.setValue(de);
                 regDE.setValue(hl);
-                //counter++;
+                regPC.inc();
+                break;
+
+            case "XTHL":
+                String sp = regSP.getValue();
+                String hl1 = regHL.getValue();
+                regHL.setValue(sp);
+                regSP.setValue(hl1);
                 regPC.inc();
                 break;
 
             case "CMA":
-                regA.setValue(String.valueOf(~Integer.parseInt(regA.getValue(), 16)));
-                //counter++;
+                regA.setValue(String.valueOf(~toInt(regA.getValue())));
                 regPC.inc();
                 break;
 
             case "INR":
                 incRegister(getRegister(arguments[1]));
-                // counter++;
                 regPC.inc();
                 break;
 
             case "RRC":
                 cycleShift(true);
-                //counter++;
                 regPC.inc();
                 break;
 
             case "RAR":
                 cycleShift(true);
-                //      counter++;
                 regPC.inc();
                 break;
 
             case "RAL":
                 cycleShift(false);
-                //      counter++;
                 regPC.inc();
                 break;
 
             case "ANA":
                 andShift(arguments[1]);
-                //       counter++;
                 regPC.inc();
                 break;
 
@@ -99,14 +258,26 @@ class Operations {
                 break;
 
             case "ORA":
-                orShift(arguments[1]);
-                //      counter++;
+                orShift(getRegister(arguments[1]).getValue());
                 regPC.inc();
                 break;
 
+            case "ORI":
+                orShift(arguments[1]);
+                regPC.inc();
+                break;
+
+            case "PCHL":
+                regPC.setValue(regHL.getValue());
+                break;
+
             case "XRA":
+                xraShift(getRegister(arguments[1]));
+                regPC.inc();
+                break;
+
+            case "XRI":
                 xraShift(arguments[1]);
-                //     counter++;
                 regPC.inc();
                 break;
 
@@ -123,14 +294,20 @@ class Operations {
                 break;
 
             case "ADC":
-                if (!flagC) {
-                    addRegister(regA, getRegister(arguments[1]));
-                } else {
-                    addRegister(regA, getRegister(arguments[1]));
+                addRegister(regA, getRegister(arguments[1]));
+                if (flagC) {
                     incRegister(regA);
                     flagC = false;
                 }
-                //  counter++;
+                regPC.inc();
+                break;
+
+            case "ACI":
+                addRegister(regA, arguments[1]);
+                if (flagC) {
+                    incRegister(regA);
+                    flagC = false;
+                }
                 regPC.inc();
                 break;
 
@@ -139,15 +316,46 @@ class Operations {
                 regPC.inc();
                 break;
 
+            case "DAD":
+                regHL.setValue(addHex(getMemory(regHL), getMemory(getRegisterPair(arguments[1]))));
+                regPC.inc();
+                break;
+
             case "CMC":
                 flagC = !flagC;
-                //   counter++;
                 regPC.inc();
+                break;
+
+            case "CMP":
+                flagC = toInt(regA.getValue()) - toInt(getRegister(arguments[1]).getValue()) <= 0;
                 break;
 
             case "SUB":
                 subRegister(regA, getRegister(arguments[1]));
                 //  counter++;
+                regPC.inc();
+                break;
+
+            case "SUI":
+                subRegister(regA, arguments[1]);
+                regPC.inc();
+                break;
+
+            case "SBB":
+                subRegister(regA, getRegister(arguments[1]));
+                if (flagC) {
+                    decRegister(regA);
+                    flagC = false;
+                }
+                regPC.inc();
+                break;
+
+            case "SBI":
+                subRegister(regA, arguments[1]);
+                if (flagC) {
+                    decRegister(regA);
+                    flagC = false;
+                }
                 regPC.inc();
                 break;
 
@@ -157,7 +365,11 @@ class Operations {
                 } else {
                     decRegister(getRegister(arguments[1]));
                 }
-                //  counter++;
+                regPC.inc();
+                break;
+
+            case "DCX":
+                getRegisterPair(arguments[1]).dec();
                 regPC.inc();
                 break;
 
@@ -177,6 +389,11 @@ class Operations {
                 regPC.inc();
                 break;
 
+            case "LHLD":
+                regHL.setValue(getMemory(arguments[1]));
+                regPC.inc();
+                break;
+
             case "LXI"://d16 -> RP
                 getRegisterPair(arguments[1]).setValue(arguments[2]);
                 //   counter++;
@@ -184,8 +401,7 @@ class Operations {
                 break;
 
             case "INX":
-                incRegisterPair(getRegisterPair(arguments[1]));
-                //   counter++;
+                getRegisterPair(arguments[1]).inc();
                 regPC.inc();
                 break;
 
@@ -233,6 +449,24 @@ class Operations {
                 }
                 break;
 
+            case "JP":
+                if (!flagS) {
+                    toGoto(arguments[1]);
+                    flagS = false;
+                } else {
+                    regPC.inc();
+                }
+                break;
+
+            case "JM":
+                if (flagS) {
+                    toGoto(arguments[1]);
+                } else {
+                    flagS = false;
+                    regPC.inc();
+                }
+                break;
+
             case "JPE":
                 if (flagP) {
                     toGoto(arguments[1]);
@@ -257,6 +491,10 @@ class Operations {
                 regA.setValue("00");
                 // counter++;
                 regPC.inc();
+                break;
+
+            case "STC":
+                flagC = true;
                 break;
 
             case "SET":
