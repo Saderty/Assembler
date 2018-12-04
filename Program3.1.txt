@@ -1,10 +1,10 @@
-set 8300 06
-set 8301 ae
-set 8302 43
-set 8303 9c
-set 8304 ff
-lxi h 8300
-lxi d 8400
+set 2000 06
+set 2001 ae
+set 2002 43
+set 2003 9c
+set 2004 ff
+lxi h 2000
+lxi d 3000
 mvi b 05
 mvi c 00
 m2:
@@ -20,8 +20,3 @@ m1:
 dcr b
 jnz m2
 end
-get 8400
-get 8401
-get 8402
-get 8403
-get 8404

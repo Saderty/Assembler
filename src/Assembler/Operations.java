@@ -312,7 +312,7 @@ class Operations {
                 break;
 
             case "CPI":
-                flagC = toInt(regA.getValue()) < toInt(getRegister(arguments[1]).getValue());
+                flagC = toInt(regA.getValue()) < toInt(arguments[1]);
                 regPC.inc();
                 break;
 

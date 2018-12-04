@@ -68,6 +68,11 @@ public class GUI {
                     new Assembler().gui();
                     regPC.setValue("0000");
                     regSP.setValue("1000");
+
+                    regPSW.setValue("0000");
+                    regBC.setValue("0000");
+                    regDE.setValue("0000");
+                    regHL.setValue("0000");
                 }
             }
         });
@@ -210,7 +215,7 @@ public class GUI {
         return inputArea.getText().split("\n");
     }
 
-    public static void main(String... args) {
+    public static void main(String[] args) {
         JFrame.setDefaultLookAndFeelDecorated(true);
         SwingUtilities.invokeLater(new Runnable() {
             @Override

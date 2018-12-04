@@ -1,12 +1,12 @@
-set 8400 a3
-set 8401 61
-set 8402 04
-set 8403 81
-set 8404 e6
-set 8405 80
-set 8406 a3
-lxi h 8400
-lxi d 8500
+set 2000 a3
+set 2001 61
+set 2002 04
+set 2003 81
+set 2004 e6
+set 2005 80
+set 2006 a3
+lxi h 2000
+lxi d 3000
 mov b m
 m2:
 inx h
@@ -22,8 +22,6 @@ m3:
 dcr b
 jnz m2
 end
-get 8500
-get 8501
 m1:
 mov a m
 stax d
