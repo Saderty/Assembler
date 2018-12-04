@@ -11,10 +11,6 @@ import static java.nio.file.FileVisitResult.TERMINATE;
 public class FileManager {
     static File mainFile = new File("F:\\BULAT\\JAVA Project\\");
 
-    public static void main(String[] args) throws IOException {
-        fileView();
-    }
-
     private static void fileView() throws IOException {
         String[] entries = mainFile.list();
 

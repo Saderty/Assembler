@@ -39,7 +39,7 @@ public class GUI {
     private JLabel registerPairSP1Label = new JLabel();
     private JLabel registerPairSP2Label = new JLabel();
 
-    private GUI() {
+    GUI() {
         JFrame frame = new JFrame("Emulator");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,6 +115,8 @@ public class GUI {
 
         frame.setSize(1000, 1000);
         frame.setVisible(true);
+
+        JFrame.setDefaultLookAndFeelDecorated(true);
     }
 
     private void setElements() {
@@ -214,7 +216,7 @@ public class GUI {
     static String[] getText() {
         return inputArea.getText().split("\n");
     }
-
+/*
     public static void main(String[] args) {
         JFrame.setDefaultLookAndFeelDecorated(true);
         SwingUtilities.invokeLater(new Runnable() {
@@ -223,5 +225,5 @@ public class GUI {
                 new GUI();
             }
         });
-    }
+    }*/
 }
