@@ -40,7 +40,7 @@ class Elements {
 
     static void createTextArea(JComponent component, int x, int y, int width, int height) {
         component.setPreferredSize(new Dimension(width, height));
-        component.setFont(new Font("Dialog", Font.PLAIN, 14));
+        component.setFont(new Font("Dialog", Font.PLAIN, 10));
         ((JTextArea) component).setTabSize(10);
         ((JTextArea) component).setLineWrap(true);
         ((JTextArea) component).setWrapStyleWord(false);
@@ -52,7 +52,7 @@ class Elements {
     }
 
     static void createTextField(JComponent component, int x, int y, int width, int height) {
-        component.setFont(new Font("Dialog", Font.PLAIN, 20));
+        component.setFont(new Font("Dialog", Font.PLAIN, 10));
         component.setPreferredSize(new Dimension(width, height));
         contentPane.add(component);
         setElement(component, x, y);
