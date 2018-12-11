@@ -11,7 +11,7 @@ import static Assembler.Elements.*;
 import static Assembler.Memory.*;
 import static Assembler.Operations.runOperations;
 
-public class GUI {
+class GUI {
     private static JTextArea inputArea = new JTextArea();
     private static JTextArea outputArea = new JTextArea();
 

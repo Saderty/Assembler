@@ -31,7 +31,6 @@ public class Assembler {
     }
 
     public static void main(String[] args) {
-        //JFrame.setDefaultLookAndFeelDecorated(true);
         SwingUtilities.invokeLater(() -> new GUI());
     }
 }
