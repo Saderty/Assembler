@@ -113,22 +113,24 @@ class GUI {
             }
         });
 
-        frame.setSize(1000, 1000);
+        frame.setSize(2000, 1000);
         frame.setVisible(true);
 
         JFrame.setDefaultLookAndFeelDecorated(true);
     }
 
-    private void setElements() {
-        int x = 300;
-        int y = 20;
+    void setElements() {
         int s = 40;
         int a = 20;
 
-        createTextArea(inputArea, 20, 20, 200, 800);
-        createTextArea(outputArea, 240, 20, 300, 800);
+        int x = 20;
+        int y = 20;
 
-        x += 300;
+        createTextArea(inputArea, x, y, 200, 890);
+        //createTextArea(outputArea, 240, 20, 300, 800);
+
+        x = 240;
+        y = 20;
 
         createLabel("S", x, y);
         createLabel(flagSLabel, x, y + s + a);
@@ -139,7 +141,8 @@ class GUI {
         createLabel("C", x + (s + a) * 3, y);
         createLabel(flagCLabel, x + (s + a) * 3, y + s + a);
 
-        y += 100 + 40;
+        x = 240;
+        y = 140;
 
         createLabel("A", x, y);
         createLabel(registerALabel, x, y + s);
@@ -168,13 +171,16 @@ class GUI {
         createLabel("P", x + 6 * s + 3 * a, y + 2 * s + a);
         createLabel(registerPairSP2Label, x + 6 * s + 3 * a, y + 3 * s + a);
 
-        y += 180 + 40;
+        x=240;
+        y=340;
 
         createTextField(textField, x, y, 80, 30);
         createTextField(memoryField, x + 100, y, 80, 30);
 
         createButton(stepButton, "STEP", x, y + 40, 80, 30);
         createButton(runButton, "RUN", x + 100, y + 40, 80, 30);
+
+        createCodeTable(x, y+90);
     }
 
     private void changeFlags() {
@@ -220,6 +226,7 @@ class GUI {
     static void createCodeTable(int x, int y) {
         String[][] codes = new String[16][16];
 
+        codes[0][0] = "NOP";
         codes[0][4] = "MOV B B";
         codes[0][5] = "MOV D B";
         codes[0][6] = "MOV H B";
@@ -249,7 +256,7 @@ class GUI {
         codes[1][13] = "POP D";
         codes[1][14] = "POP H";
         codes[1][15] = "POP PSW";
-//
+
         codes[2][0] = "STAX B";
         codes[2][1] = "STAX D";
         codes[2][2] = "SHLD";
@@ -283,7 +290,7 @@ class GUI {
         codes[3][13] = "";
         codes[3][14] = "XTHL";
         codes[3][15] = "";
-//
+
         codes[4][0] = "INR B";
         codes[4][1] = "INR D";
         codes[4][2] = "INR H";
@@ -317,7 +324,7 @@ class GUI {
         codes[5][13] = "PUSH D";
         codes[5][14] = "PUSH H";
         codes[5][15] = "PUSH PSW";
-//
+
         codes[6][0] = "MVI B";
         codes[6][1] = "MVI D";
         codes[6][2] = "MVI H";
@@ -487,5 +494,11 @@ class GUI {
         codes[15][13] = "RST 3";
         codes[15][14] = "RST 5";
         codes[15][15] = "RST 7";
+
+        for (int i = 0; i < codes.length; i++) {
+            for (int j = 0; j < codes[0].length; j++) {
+                createButton(new JButton(), codes[j][i], x + i * 80, y + j * 30, 80, 30);
+            }
+        }
     }
 }

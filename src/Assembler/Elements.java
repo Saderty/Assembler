@@ -40,7 +40,7 @@ class Elements {
 
     static void createTextArea(JComponent component, int x, int y, int width, int height) {
         component.setPreferredSize(new Dimension(width, height));
-        component.setFont(new Font("Dialog", Font.PLAIN, 10));
+        component.setFont(new Font("Dialog", Font.PLAIN, 20));
         ((JTextArea) component).setTabSize(10);
         ((JTextArea) component).setLineWrap(true);
         ((JTextArea) component).setWrapStyleWord(false);
@@ -59,6 +59,7 @@ class Elements {
     }
 
     static void createButton(JComponent component, String text, int x, int y, int width, int height) {
+        component.setFont(new Font("Dialog",Font.PLAIN,10));
         ((JButton) component).setText(text);
         component.setPreferredSize(new Dimension(width, height));
         ((JButton) component).setHorizontalAlignment(JButton.CENTER);
