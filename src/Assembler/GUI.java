@@ -2,10 +2,9 @@ package Assembler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static Assembler.Elements.*;
 import static Assembler.Memory.*;
@@ -113,13 +112,33 @@ class GUI {
             }
         });
 
-        frame.setSize(2000, 1000);
+        frame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JButton button = (JButton) e.getSource();
+                System.out.println(button.getText());
+                inputArea.setText(button.getText());
+
+                if (e.getSource().equals(runButton)) {
+                    System.out.println("qqqqq");
+                }
+            }
+        });
+
+        frame.getContentPane().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(((JButton) e.getSource()).getText());
+            }
+        });
+
+        frame.setSize(1600, 1000);
         frame.setVisible(true);
 
         JFrame.setDefaultLookAndFeelDecorated(true);
     }
 
-    void setElements() {
+    private void setElements() {
         int s = 40;
         int a = 20;
 
@@ -171,8 +190,8 @@ class GUI {
         createLabel("P", x + 6 * s + 3 * a, y + 2 * s + a);
         createLabel(registerPairSP2Label, x + 6 * s + 3 * a, y + 3 * s + a);
 
-        x=240;
-        y=340;
+        x = 240;
+        y = 340;
 
         createTextField(textField, x, y, 80, 30);
         createTextField(memoryField, x + 100, y, 80, 30);
@@ -180,7 +199,7 @@ class GUI {
         createButton(stepButton, "STEP", x, y + 40, 80, 30);
         createButton(runButton, "RUN", x + 100, y + 40, 80, 30);
 
-        createCodeTable(x, y+90);
+        createCodeTable(x, y + 90);
     }
 
     private void changeFlags() {
@@ -223,7 +242,7 @@ class GUI {
         return inputArea.getText().split("\n");
     }
 
-    static void createCodeTable(int x, int y) {
+    private static void createCodeTable(int x, int y) {
         String[][] codes = new String[16][16];
 
         codes[0][0] = "NOP";
@@ -495,9 +514,23 @@ class GUI {
         codes[15][14] = "RST 5";
         codes[15][15] = "RST 7";
 
+
+        //List<JButton> listOfButtons = new ArrayList<>(15*15);
+
         for (int i = 0; i < codes.length; i++) {
             for (int j = 0; j < codes[0].length; j++) {
-                createButton(new JButton(), codes[j][i], x + i * 80, y + j * 30, 80, 30);
+                JButton button = new JButton();
+                createButton(button, codes[j][i], x + i * 80, y + j * 30, 80, 30);
+                // listOfButtons.add(button);
+                button.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        //System.out.println(((JButton) e.getSource()).getText());
+                        String tmp=inputArea.getText();
+                        tmp+=((JButton) e.getSource()).getText().toLowerCase()+"\n";
+                        inputArea.setText(tmp);
+                    }
+                });
             }
         }
     }
