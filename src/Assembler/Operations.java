@@ -1,7 +1,10 @@
 package Assembler;
 
+import java.util.Arrays;
+
 import static Assembler.Assembler.tmpCP;
 import static Assembler.Memory.*;
+import static Assembler.Memory.toString;
 
 class Operations {
     private static void toGoto(String s) {
@@ -15,12 +18,470 @@ class Operations {
         }
     }
 
+    /**
+     * void codesMap(){
+     * String[][] codes=new String[15][15];
+     * <p>
+     * codes[0][4]="MOV B B";
+     * codes[0][5]="MOV D B";
+     * codes[0][6]="MOV H B";
+     * codes[0][7]="MOV M B";
+     * codes[0][8]="ADD B";
+     * codes[0][9]="SUB B";
+     * codes[0][10]="ANA B";
+     * codes[0][11]="ORA B";
+     * codes[0][12]="RNZ";
+     * codes[0][13]="RNC";
+     * codes[0][14]="RPO";
+     * codes[0][15]="RP";
+     * <p>
+     * codes[1][0]="LXI B";
+     * codes[1][1]="LXI D";
+     * codes[1][2]="";
+     * codes[1][3]="";
+     * codes[1][4]="";
+     * codes[1][5]="";
+     * codes[1][6]="";
+     * codes[1][7]="";
+     * codes[1][8]="";
+     * codes[1][9]="";
+     * codes[1][10]="";
+     * codes[1][11]="";
+     * codes[1][12]="";
+     * codes[1][13]="";
+     * codes[1][14]="";
+     * codes[1][15]="";
+     * <p>
+     * codes[0][0]="";
+     * codes[0][1]="";
+     * codes[0][2]="";
+     * codes[0][3]="";
+     * codes[0][4]="";
+     * codes[0][5]="";
+     * codes[0][6]="";
+     * codes[0][7]="";
+     * codes[0][8]="";
+     * codes[0][9]="";
+     * codes[0][10]="";
+     * codes[0][11]="";
+     * codes[0][12]="";
+     * codes[0][13]="";
+     * codes[0][14]="";
+     * codes[0][15]="";
+     * <p>
+     * codes[0][0]="";
+     * codes[0][1]="";
+     * codes[0][2]="";
+     * codes[0][3]="";
+     * codes[0][4]="";
+     * codes[0][5]="";
+     * codes[0][6]="";
+     * codes[0][7]="";
+     * codes[0][8]="";
+     * codes[0][9]="";
+     * codes[0][10]="";
+     * codes[0][11]="";
+     * codes[0][12]="";
+     * codes[0][13]="";
+     * codes[0][14]="";
+     * codes[0][15]="";
+     * <p>
+     * codes[0][0]="";
+     * codes[0][1]="";
+     * codes[0][2]="";
+     * codes[0][3]="";
+     * codes[0][4]="";
+     * codes[0][5]="";
+     * codes[0][6]="";
+     * codes[0][7]="";
+     * codes[0][8]="";
+     * codes[0][9]="";
+     * codes[0][10]="";
+     * codes[0][11]="";
+     * codes[0][12]="";
+     * codes[0][13]="";
+     * codes[0][14]="";
+     * codes[0][15]="";
+     * }
+     */
+
+    static int getReg(String s) {
+        byte B = 0b000;
+        byte C = 0b001;
+        byte D = 0b010;
+        byte E = 0b011;
+        byte H = 0b100;
+        byte L = 0b101;
+        byte M = 0b110;
+        byte A = 0b111;
+        switch (s) {
+            case "B":
+                return B;
+            case "C":
+                return C;
+            case "D":
+                return D;
+            case "E":
+                return E;
+            case "H":
+                return H;
+            case "L":
+                return L;
+            case "M":
+                return M;
+            case "A":
+                return A;
+        }
+        return -1;
+    }
+
+    static int getRegPair(String s) {
+        byte BC = 0b00;
+        byte DE = 0b01;
+        byte HL = 0b10;
+        byte SP = 0b11;
+        byte PSW = 0b11;
+        switch (s) {
+            case "B":
+                return BC;
+            case "D":
+                return DE;
+            case "H":
+                return HL;
+            case "SP":
+                return SP;
+            case "PSW":
+                return PSW;
+        }
+        return -1;
+    }
+
+    static String[] program = new String[1000];
+    static int counter = 0;
+
+ /*   static void step(String s) {
+        System.out.println(s);
+        String[] tmp = s.split(" ");
+        System.out.println("qq"+Arrays.toString(tmp));
+        System.out.println(tmp.length);
+        for (int i = 0; i < tmp.length; i++) {
+            program[counter]=tmp[i];
+            counter++;
+            System.out.println(tmp[i]);
+        }
+    }*/
+
+    static String[] exchange(String[] program) {
+        Double tact = 0d;
+        //int counter = 0;
+        int tmp;
+        for (int i = 0; i < program.length; i++) {
+            String[] arguments = program[i].toUpperCase().split(" ");
+            switch (arguments[0]) {
+                case "MOV"://1b
+                    tmp = 0b01 << 6;
+                    tmp |= getReg(arguments[1]) << 3;
+                    tmp |= getReg(arguments[2]);
+
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    // step(Integer.toHexString(tmp));
+                    tact += 5;
+                    break;
+                case "MVI"://2b
+                    tmp = 0;
+                    tmp |= getReg(arguments[1]) << 3;
+                    tmp |= getReg("M");
+
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[2];
+                    counter++;
+                    tact += 7;
+                    break;
+                case "LXI"://3b
+                    tmp = 0;
+                    tmp |= getRegPair(arguments[1]) << 4;
+                    tmp |= 0b0001;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[2].substring(2, 4);
+                    counter++;
+                    program[counter] = arguments[2].substring(0, 2);
+                    counter++;
+                    // step(Integer.toHexString(tmp) + " " + arguments[2].substring(2, 4) + " "+ arguments[2].substring(0, 2));
+                    tact += 10;
+                    break;
+                case "LDAX"://1b
+                    tmp = 0;
+                    tmp |= getRegPair(arguments[1]) << 4;
+                    tmp |= 0b1010;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 7;
+                    break;
+                case "STAX"://1b
+                    tmp = 0;
+                    tmp |= getRegPair(arguments[1]) << 4;
+                    tmp |= 0b0010;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 7;
+                    break;
+                case "LDA"://3b
+                    tmp = 0b00111010;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[2].substring(2, 4);
+                    counter++;
+                    program[counter] = arguments[2].substring(0, 2);
+                    counter++;
+                    tact += 13;
+                    break;
+                case "STA"://3b
+                    tmp = 0b00110010;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[2].substring(2, 4);
+                    counter++;
+                    program[counter] = arguments[2].substring(0, 2);
+                    counter++;
+                    tact += 13;
+                    break;
+                case "LHLD"://3b
+                    tmp = 0b00101010;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[2].substring(2, 4);
+                    counter++;
+                    program[counter] = arguments[2].substring(0, 2);
+                    counter++;
+                    tact += 16;
+                    break;
+                case "SHLD"://3b
+                    tmp = 0b00100010;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[2].substring(2, 4);
+                    counter++;
+                    program[counter] = arguments[2].substring(0, 2);
+                    counter++;
+                    tact += 16;
+                    break;
+                case "XCHG"://1b
+                    tmp = 0b11101011;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 4;
+                    break;
+                case "XTHL"://1b
+                    tmp = 0b11100011;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 18;
+                    break;
+                case "SPHL"://1b
+                    tmp = 0b11111001;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 5;
+                    break;
+                case "PUSH"://1b
+                    tmp = 0b11 << 6;
+                    tmp |= getRegPair(arguments[1]) << 4;
+                    tmp |= 0b0101;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 11;
+                    break;
+                case "POP"://1b
+                    tmp = 0b11 << 6;
+                    tmp |= getRegPair(arguments[1]) << 4;
+                    tmp |= 0b0001;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 10;
+                    break;
+                case "ADD"://1b
+                    tmp = 0b10000 << 5;
+                    tmp |= getReg(arguments[1]);
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 4;
+                    break;
+                case "ADC"://1b
+                    tmp = 0b10001 << 5;
+                    tmp |= getReg(arguments[1]);
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 4;
+                    break;
+                case "ADI"://2b
+                    tmp = 0b11000110;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[1];
+                    counter++;
+                    tact += 7;
+                    break;
+                case "ACI"://2b
+                    tmp = 0b11001110;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[1];
+                    counter++;
+                    tact += 7;
+                    break;
+                case "DAD"://1b
+                    tmp = 0;
+                    tmp |= getRegPair(arguments[1]) << 4;
+                    tmp |= 0b1010;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 10;
+                    break;
+                case "SUB"://1b
+                    tmp = 0b10010 << 5;
+                    tmp |= getReg(arguments[1]);
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 4;
+                    break;
+                case "SBB"://1b
+                    tmp = 0b10011 << 5;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 4;
+                    break;
+                case "SUI"://2b
+                    tmp = 0b11010110;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[1];
+                    counter++;
+                    tact += 7;
+                    break;
+                case "SBI"://2b
+                    tmp = 0b11011110;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[1];
+                    counter++;
+                    tact += 7;
+                    break;
+                case "INR"://1b
+                    tmp = 0;
+                    tmp |= getReg(arguments[1]) << 3;
+                    tmp |= 0b100;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 5;
+                    break;
+                case "DCR"://1b
+                    tmp = 0;
+                    tmp |= getReg(arguments[1]) << 3;
+                    tmp |= 0b101;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 5;
+                    break;
+                case "INX"://1b
+                    tmp = 0;
+                    tmp |= getRegPair(arguments[1]) << 4;
+                    tmp |= 0b0011;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 5;
+                    break;
+                case "DCX"://1b
+                    tmp = 0;
+                    tmp |= getRegPair(arguments[1]) << 4;
+                    tmp |= 0b0011;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 5;
+                    break;
+                case "ANA"://1b
+                    tmp = 0b10100 << 5;
+                    tmp |= getReg(arguments[1]);
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 7;
+                    break;
+                case "ANI"://2b
+                    tmp = 0b11100110;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[1];
+                    counter++;
+                    tact += 7;
+                    break;
+                case "XRA"://1b
+                    tmp = 0b10101 << 5;
+                    tmp |= getReg(arguments[1]);
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 4;
+                    break;
+                case "XRI"://2b
+                    tmp = 0b11101110;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[1];
+                    counter++;
+                    tact += 7;
+                    break;
+                case "ORA"://1b
+                    tmp = 0b10110 << 5;
+                    tmp |= getReg(arguments[1]);
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    tact += 4;
+                    break;
+                case "ORI"://2b
+                    tmp = 0b10110110;
+                    program[counter] = Integer.toHexString(tmp);
+                    counter++;
+                    program[counter] = arguments[1];
+                    counter++;
+                    tact += 7;
+                    break;
+            }
+        }
+
+        return program;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(exchange(new String[]{"LXI D 9011"})));
+    }
+
+    static void run(String program) {
+        String[] arguments = program.split(" ");
+
+        if (arguments.length == 1) {
+            switch (arguments[0]) {
+                case "MOV":
+
+
+                    getRegister(arguments[1]).setValue(getRegister(arguments[2]).getValue());
+                    regPC.inc();
+                    break;
+            }
+        } else if (arguments.length == 2) {
+
+        } else if (arguments.length == 3) {
+
+        }
+    }
+
     static void runOperations(String program) {
         String[] arguments = program.split(" ");
 
         switch (arguments[0]) {
             case "CALL":
-                tmpCP = regPC.getValue();
+                pushStack(regPC);
+                //tmpCP = regPC.getValue();
                 toGoto(arguments[1]);
                 break;
 
@@ -97,7 +558,8 @@ class Operations {
                 break;
 
             case "RET":
-                regPC.setValue(tmpCP);
+                popStack(regPC);
+                //regPC.setValue(tmpCP);
                 regPC.inc();
                 break;
 
@@ -172,7 +634,7 @@ class Operations {
                     regPC.setValue(tmpCP);
                     regPC.inc();
                 } else {
-                    flagP=false;
+                    flagP = false;
                     regPC.inc();
                 }
                 break;

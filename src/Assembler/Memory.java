@@ -87,7 +87,7 @@ class Memory {
         return Integer.toHexString(Integer.parseInt(arg0, bit) + Integer.parseInt(arg1, bit));
     }
 
-    static String toString(int dec) {
+    public static String toString(int dec) {
         return decToHex(dec);
     }
 
