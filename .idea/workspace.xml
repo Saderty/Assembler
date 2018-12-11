@@ -7,8 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d0b742b-db81-4473-9bac-8de7a7d6078c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Assembler/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Assembler/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Assembler/Operations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Assembler/Operations.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,13 +20,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GUI.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GUI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Assembler/GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="415">
-              <caret line="532" column="19" lean-forward="true" selection-start-line="532" selection-start-column="19" selection-end-line="532" selection-end-column="19" />
+            <state relative-caret-position="-3740">
+              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="e#3321#3978#0" expanded="true" />
                 <element signature="e#3977#3978#0" expanded="true" />
                 <element signature="e#3895#4299#0" expanded="true" />
@@ -73,8 +72,8 @@
       <file leaf-file-name="Memory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Assembler/Memory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1088">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="330">
+              <caret line="265" column="53" lean-forward="true" selection-start-line="265" selection-start-column="53" selection-end-line="265" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3499#3500#0" expanded="true" />
@@ -96,13 +95,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Operations.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Operations.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Assembler/Operations.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+            <state relative-caret-position="296">
+              <caret line="374" column="8" selection-start-line="374" selection-start-column="8" selection-end-line="374" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#exchange#0;class#Operations#0" />
               </folding>
             </state>
           </provider>
@@ -220,9 +220,9 @@
         <option value="$PROJECT_DIR$/src/Assembler/Instruction.java" />
         <option value="$PROJECT_DIR$/src/Assembler/Assembler.java" />
         <option value="$PROJECT_DIR$/src/Assembler/Memory.java" />
-        <option value="$PROJECT_DIR$/src/Assembler/Operations.java" />
         <option value="$PROJECT_DIR$/src/Assembler/Elements.java" />
         <option value="$PROJECT_DIR$/src/Assembler/GUI.java" />
+        <option value="$PROJECT_DIR$/src/Assembler/Operations.java" />
       </list>
     </option>
   </component>
@@ -235,7 +235,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="810" />
     <option name="width" value="1117" />
     <option name="height" value="1047" />
@@ -467,7 +467,7 @@
       <workItem from="1543567694474" duration="5986000" />
       <workItem from="1543838464511" duration="394000" />
       <workItem from="1543943766539" duration="3684000" />
-      <workItem from="1544515319280" duration="31998000" />
+      <workItem from="1544515319280" duration="33108000" />
     </task>
     <task id="LOCAL-00001" summary="Added Support&#10;Added program reader">
       <created>1539252801211</created>
@@ -522,11 +522,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="215877000" />
+    <option name="totallyTimeSpent" value="216987000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="810" y="0" width="1117" height="1047" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -870,10 +869,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Program.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="3" lean-forward="true" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/src.zip!/java/lang/Runnable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="464">
+          <caret line="67" column="25" selection-start-line="67" selection-start-column="25" selection-end-line="67" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Assembler/GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3740">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding>
+            <element signature="e#3321#3978#0" expanded="true" />
+            <element signature="e#3977#3978#0" expanded="true" />
+            <element signature="e#3895#4299#0" expanded="true" />
+            <element signature="e#4298#4299#0" expanded="true" />
+            <element signature="e#4351#4505#0" expanded="true" />
+            <element signature="e#4504#4505#0" expanded="true" />
+            <element signature="e#17054#17251#0" expanded="true" />
+            <element signature="e#17250#17251#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Assembler/Elements.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="568">
+          <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#418#419#0" expanded="true" />
+            <element signature="e#468#469#0" expanded="true" />
+            <element signature="e#526#527#0" expanded="true" />
+            <element signature="e#579#580#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Assembler/Assembler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#846#847#0" expanded="true" />
+            <element signature="e#905#906#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Assembler/Memory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1088">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        <state relative-caret-position="330">
+          <caret line="265" column="53" lean-forward="true" selection-start-line="265" selection-start-column="53" selection-end-line="265" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3499#3500#0" expanded="true" />
@@ -896,68 +952,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Assembler/Operations.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+        <state relative-caret-position="296">
+          <caret line="374" column="8" selection-start-line="374" selection-start-column="8" selection-end-line="374" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Program.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="3" lean-forward="true" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_181/src.zip!/java/lang/Runnable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="67" column="25" selection-start-line="67" selection-start-column="25" selection-end-line="67" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Assembler/Assembler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#846#847#0" expanded="true" />
-            <element signature="e#905#906#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Assembler/Elements.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="568">
-          <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#418#419#0" expanded="true" />
-            <element signature="e#468#469#0" expanded="true" />
-            <element signature="e#526#527#0" expanded="true" />
-            <element signature="e#579#580#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Assembler/GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="532" column="19" lean-forward="true" selection-start-line="532" selection-start-column="19" selection-end-line="532" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3321#3978#0" expanded="true" />
-            <element signature="e#3977#3978#0" expanded="true" />
-            <element signature="e#3895#4299#0" expanded="true" />
-            <element signature="e#4298#4299#0" expanded="true" />
-            <element signature="e#4351#4505#0" expanded="true" />
-            <element signature="e#4504#4505#0" expanded="true" />
-            <element signature="e#17054#17251#0" expanded="true" />
-            <element signature="e#17250#17251#0" expanded="true" />
+            <element signature="method#exchange#0;class#Operations#0" />
           </folding>
         </state>
       </provider>

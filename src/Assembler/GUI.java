@@ -2,9 +2,10 @@ package Assembler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import static Assembler.Elements.*;
 import static Assembler.Memory.*;
@@ -513,7 +514,6 @@ class GUI {
         codes[15][13] = "RST 3";
         codes[15][14] = "RST 5";
         codes[15][15] = "RST 7";
-
 
         //List<JButton> listOfButtons = new ArrayList<>(15*15);
 

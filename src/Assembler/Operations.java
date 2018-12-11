@@ -83,7 +83,7 @@ class Operations {
             System.out.println(tmp[i]);
         }
     }*/
-
+/**
     static String[] exchange(String[] program) {
         Double tact = 0d;
         //int counter = 0;
@@ -365,12 +365,14 @@ class Operations {
 
         return result;
     }
-
+*/
     public static void main(String[] args) {
         String[] qq=new String[100];
         qq[0]="LXI D 9011";
         qq[1]="MOV A A";
-        System.out.println(Arrays.toString(exchange(qq)));
+       // System.out.println(Arrays.toString(exchange(qq)));
+
+
     }
 
     static void runOperations(String program) {
