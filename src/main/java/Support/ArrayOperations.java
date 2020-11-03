@@ -4,7 +4,6 @@ public class ArrayOperations {
     public static final int NULL = 0;
     public static final int SPACE = 1;
 
-    //TODO : Don't worked...
     public static String[] TrimArray(String[] strings, int arg) {
         if (arg == NULL) {
             int n = 0;
