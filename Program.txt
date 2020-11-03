@@ -1,7 +1,0 @@
-set 2000 71
-lxi h 2000
-mov a m
-rar
-lxi d 2001
-stax d
-end
