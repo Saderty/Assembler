@@ -366,15 +366,6 @@ class Operations {
         return result;
     }
 */
-    public static void main(String[] args) {
-        String[] qq=new String[100];
-        qq[0]="LXI D 9011";
-        qq[1]="MOV A A";
-       // System.out.println(Arrays.toString(exchange(qq)));
-
-
-    }
-
     static void runOperations(String program) {
         String[] arguments = program.split(" ");
 
@@ -864,7 +855,7 @@ class Operations {
                 regPC.inc();
                 break;
 
-          /*  case "GET":
+            case "GET":
                 if (arguments[1].length() == 1) {
                     System.out.println("Register " + arguments[1] + " = " + getRegister(arguments[1]).getValue());
                 }
@@ -873,7 +864,6 @@ class Operations {
                 }
                 regPC.inc();
                 break;
-*/
 
             default:
                 break;

@@ -32,5 +32,13 @@ public class Assembler {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new GUI());
+
+        /*String[] nums = {"11","22","23","09","1e"};
+        int acc = 0;
+        for (int i = 0; i < nums.length; i++) {
+            acc += Integer.parseInt(nums[i], 16);
+        }
+        System.out.println(acc);
+        System.out.println(Integer.toHexString(acc));*/
     }
 }

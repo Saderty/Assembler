@@ -141,7 +141,7 @@ class GUI {
 
     private void setElements() {
         int s = 40;
-        int a = 20;
+        int a = 10;
 
         int x = 20;
         int y = 20;
@@ -244,6 +244,7 @@ class GUI {
     }
 
     private static void createCodeTable(int x, int y) {
+        int cellWidth = 60, cellHeight = 20;
         String[][] codes = new String[16][16];
 
         codes[0][0] = "NOP";
@@ -520,14 +521,14 @@ class GUI {
         for (int i = 0; i < codes.length; i++) {
             for (int j = 0; j < codes[0].length; j++) {
                 JButton button = new JButton();
-                createButton(button, codes[j][i], x + i * 80, y + j * 30, 80, 30);
+                createButton(button, codes[j][i], x + i * cellWidth, y + j * cellHeight, cellWidth, cellHeight);
                 // listOfButtons.add(button);
                 button.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         //System.out.println(((JButton) e.getSource()).getText());
-                        String tmp=inputArea.getText();
-                        tmp+=((JButton) e.getSource()).getText().toLowerCase()+"\n";
+                        String tmp = inputArea.getText();
+                        tmp += ((JButton) e.getSource()).getText().toLowerCase() + "\n";
                         inputArea.setText(tmp);
                     }
                 });
